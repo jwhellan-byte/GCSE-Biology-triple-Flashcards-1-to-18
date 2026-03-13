@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no">
+<title>AQA GCSE Biology (Full) — Flashcards</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Syne:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+[data-theme="dark"] {
+  --bg:#0c0e14;--bg2:#13161f;--bg3:#1a1e2c;--border:#252a3b;--border2:#2f3650;
+  --text:#e4e8f5;--muted:#6a7494;--muted2:#4a5270;
+  --accent:#2ed87a;--accent-bg:rgba(46,216,122,.10);
+  --teal:#22c5b0;--teal-bg:rgba(34,197,176,.10);
+  --amber:#f5a623;--amber-bg:rgba(245,166,35,.10);
+  --red:#f06060;
+  --card-q:linear-gradient(160deg,#161b2e 0%,#111420 100%);
+  --card-a:linear-gradient(160deg,#0e1e17 0%,#0a1510 100%);
+  --shadow:0 4px 24px rgba(0,0,0,.55);
+}
+[data-theme="light"] {
+  --bg:#f5f6fa;--bg2:#ffffff;--bg3:#eceef6;--border:#d8dcea;--border2:#c4c9df;
+  --text:#1a1e2e;--muted:#7a82a0;--muted2:#9fa7c2;
+  --accent:#1a9e52;--accent-bg:rgba(26,158,82,.08);
+  --teal:#0f8a7a;--teal-bg:rgba(15,138,122,.08);
+  --amber:#d9890e;--amber-bg:rgba(217,137,14,.08);
+  --red:#d94040;
+  --card-q:linear-gradient(160deg,#f0f3ff 0%,#e8ecfa 100%);
+  --card-a:linear-gradient(160deg,#eafaf3 0%,#dff5eb 100%);
+  --shadow:0 2px 12px rgba(0,0,0,.10);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+/* ── iOS Safari: prevent bounce/elastic scroll causing layout glitches ── */
+html{
+  scroll-behavior:smooth;
+  /* Prevent iOS text size adjustment on orientation change */
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+}
+body{
+  font-family:'Syne',sans-serif;
+  background:var(--bg);color:var(--text);
+  min-height:100vh;
+  min-height:-webkit-fill-available; /* iOS Safari full-height fix */
+  transition:background .25s,color .25s;
+  /* Prevent horizontal overflow on mobile */
+  overflow-x:hidden;
+  /* Smooth momentum scrolling on iOS */
+  -webkit-overflow-scrolling:touch;
+}
+
+/* ── Header ── */
+header{
+  position:sticky;
+  /* iOS Safari sticky fix — use -webkit-sticky */
+  position:-webkit-sticky;
+  position:sticky;
+  top:0;z-index:200;
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  /* Safe area padding for iPhone notch */
+  padding:0 max(20px, env(safe-area-inset-right)) 0 max(20px, env(safe-area-inset-left));
+  display:flex;align-items:center;gap:10px;
+  height:58px;
+  /* Prevent iOS from making header translucent */
+  -webkit-backdrop-filter:none;
+}
+.logo{font-family:'Instrument Serif',serif;font-size:1.1rem;color:var(--text);white-space:nowrap;flex-shrink:0}
+.logo span{color:var(--accent)}
+.header-sep{width:1px;height:24px;background:var(--border);flex-shrink:0}
+#gp-wrap{flex:1;min-width:0;max-width:200px;display:flex;flex-direction:column;gap:4px}
+#gp-bg{height:5px;border-radius:3px;background:var(--bg3);overflow:hidden}
+#gp-bar{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--teal));transition:width .4s;width:0%}
+#gp-text{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted);letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hbtn{
+  background:var(--bg3);border:1px solid var(--border);
+  color:var(--muted);cursor:pointer;border-radius:8px;
+  font-family:'Syne',sans-serif;font-size:.75rem;font-weight:500;
+  padding:6px 14px;transition:all .15s;white-space:nowrap;
+  display:flex;align-items:center;gap:6px;
+  /* iOS: remove default button styling */
+  -webkit-appearance:none;appearance:none;
+  touch-action:manipulation; /* removes 300ms tap delay */
+}
+.hbtn:hover{border-color:var(--accent);color:var(--text)}
+/* Use :active for touch feedback instead of :hover */
+.hbtn:active{border-color:var(--accent);color:var(--text);opacity:.8}
+#theme-btn{
+  width:44px;height:44px;padding:0; /* 44px = Apple minimum touch target */
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;flex-shrink:0;
+  -webkit-appearance:none;appearance:none;
+  touch-action:manipulation;
+}
+
+/* ── Selection panel ── */
+#sel-panel{
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  padding:12px max(16px, env(safe-area-inset-right)) 12px max(16px, env(safe-area-inset-left));
+  display:flex;flex-wrap:wrap;align-items:center;gap:8px;
+  /* Prevent horizontal scroll on iOS */
+  overflow-x:hidden;
+}
+.sel-group{display:flex;flex-wrap:wrap;gap:6px;align-items:center;width:100%}
+.sel-label{font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap;margin-right:2px}
+.sel-btn{
+  background:var(--bg3);border:1px solid var(--border);
+  color:var(--muted);cursor:pointer;border-radius:7px;
+  font-family:'Syne',sans-serif;font-size:.72rem;font-weight:500;
+  /* Minimum 44px tall for iOS touch targets */
+  padding:10px 12px;
+  min-height:38px;
+  transition:background .15s,border-color .15s,color .15s;
+  white-space:nowrap;
+  -webkit-appearance:none;appearance:none;
+  touch-action:manipulation;
+}
+.sel-btn:active{opacity:.75}
+.sel-btn.active{background:var(--accent-bg);border-color:var(--accent);color:var(--accent)}
+.sel-btn.p1.active{background:var(--amber-bg);border-color:var(--amber);color:var(--amber)}
+.sel-btn.p2.active{background:var(--teal-bg);border-color:var(--teal);color:var(--teal)}
+.sel-sep{display:none} /* Hide vertical separator — not needed on mobile-first layout */
+#shuffle-btn{
+  background:var(--accent-bg);border:1px solid var(--accent);
+  color:var(--accent);cursor:pointer;border-radius:8px;
+  font-family:'Syne',sans-serif;font-size:.75rem;font-weight:600;
+  padding:10px 16px;min-height:38px;
+  transition:all .15s;display:flex;align-items:center;gap:6px;
+  -webkit-appearance:none;appearance:none;
+  touch-action:manipulation;
+}
+#shuffle-btn:active{background:var(--accent);color:#fff}
+
+/* ── Cards area ── */
+#cards-area{
+  flex:1;
+  padding:20px max(16px, env(safe-area-inset-right)) 90px max(16px, env(safe-area-inset-left));
+  max-width:1200px;width:100%;margin:0 auto;
+}
+.ch-section{margin-bottom:40px}
+.ch-header{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  margin-bottom:16px;padding-bottom:12px;
+  border-bottom:1px solid var(--border);
+}
+.ch-num-tag{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:500;color:var(--accent);background:var(--accent-bg);border:1px solid rgba(46,216,122,.25);padding:3px 8px;border-radius:5px;letter-spacing:.04em;white-space:nowrap;flex-shrink:0}
+.paper-tag{font-family:'JetBrains Mono',monospace;font-size:.58rem;padding:2px 7px;border-radius:4px;white-space:nowrap;flex-shrink:0}
+.paper-tag.p1{color:var(--amber);background:var(--amber-bg);border:1px solid rgba(245,166,35,.25)}
+.paper-tag.p2{color:var(--teal);background:var(--teal-bg);border:1px solid rgba(34,197,176,.25)}
+.ch-title{font-family:'Instrument Serif',serif;font-size:1.15rem;color:var(--text);letter-spacing:-.01em;flex:1;min-width:0}
+.ch-stats{
+  /* On mobile move stats below title */
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);
+  text-align:right;white-space:nowrap;flex-shrink:0;
+}
+.ch-prog{width:60px;height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;margin-top:4px}
+.ch-prog-fill{height:100%;border-radius:2px;background:var(--accent);transition:width .4s}
+
+/* ── Cards grid ── */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+
+/* ── Individual card ──
+   KEY iOS FIX: iOS Safari has a well-known bug with 3D transforms and
+   backface-visibility. The fix is to use translateZ(0) to force GPU
+   compositing and ensure -webkit- prefixes are on BOTH the container
+   AND the face elements. Also, remove :hover lift on touch devices
+   to prevent cards getting "stuck" in raised state after tap.
+── */
+.card-wrap{
+  perspective:1000px;
+  -webkit-perspective:1000px;
+  height:195px;
+  cursor:pointer;
+  touch-action:manipulation; /* prevents double-tap zoom, removes tap delay */
+  /* Isolate stacking context for iOS */
+  -webkit-transform:translateZ(0);
+  transform:translateZ(0);
+}
+.card-wrap.tall{height:240px}
+
+.card-inner{
+  width:100%;height:100%;
+  position:relative;
+  -webkit-transform-style:preserve-3d;
+  transform-style:preserve-3d;
+  transition:-webkit-transform .5s cubic-bezier(.4,0,.2,1);
+  transition:transform .5s cubic-bezier(.4,0,.2,1);
+  /* Force GPU layer on iOS */
+  -webkit-transform:translateZ(0);
+  transform:translateZ(0);
+  will-change:transform;
+}
+/* Only apply hover lift on devices that truly have hover (desktops) */
+@media(hover:hover){
+  .card-wrap:hover .card-inner:not(.flipped){
+    -webkit-transform:translateY(-2px);
+    transform:translateY(-2px);
+  }
+}
+.card-inner.flipped{
+  -webkit-transform:rotateY(180deg);
+  transform:rotateY(180deg);
+}
+
+.card-face{
+  position:absolute;inset:0;
+  /* Critical iOS fix: must use BOTH prefixed and unprefixed */
+  -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
+  border-radius:12px;
+  padding:16px 18px;
+  display:flex;flex-direction:column;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  /* Force GPU compositing on iOS — prevents face bleed-through */
+  -webkit-transform:translateZ(0);
+  transform:translateZ(0);
+}
+.cf-front{background:var(--card-q)}
+.cf-back{
+  background:var(--card-a);
+  border-color:rgba(52,201,126,.2);
+  -webkit-transform:rotateY(180deg) translateZ(0);
+  transform:rotateY(180deg) translateZ(0);
+}
+.card-wrap.is-learned .cf-front{border-color:rgba(52,201,126,.35)}
+
+.card-topic-tag{font-family:'JetBrains Mono',monospace;font-size:.57rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted2);margin-bottom:8px;flex-shrink:0}
+.card-q-text{font-family:'Instrument Serif',serif;font-size:1.2rem;line-height:1.5;color:var(--text);flex:1;overflow:hidden}
+.card-back-label{font-family:'JetBrains Mono',monospace;font-size:.57rem;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;opacity:.7;flex-shrink:0}
+.card-a-text{font-family:'Instrument Serif',serif;font-size:1.15rem;line-height:1.45;color:#7ee8b0;flex:1;display:flex;align-items:center;overflow:hidden}
+[data-theme="light"] .card-a-text{color:#0d7a45}
+
+.card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:8px;flex-shrink:0}
+.card-hint{font-size:.58rem;color:var(--muted2);font-family:'JetBrains Mono',monospace;letter-spacing:.04em}
+
+/* Learned button: 44×44 touch target (Apple HIG requirement) */
+.learned-btn{
+  width:44px;height:44px;
+  border-radius:50%;
+  border:1.5px solid var(--border2);
+  background:transparent;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;
+  transition:background .18s,border-color .18s,color .18s;
+  flex-shrink:0;
+  color:var(--muted2);
+  margin:-9px -9px -9px 0; /* visual size stays small, tap area is 44px */
+  -webkit-appearance:none;appearance:none;
+  touch-action:manipulation;
+}
+.learned-btn:active{border-color:var(--accent);color:var(--accent);opacity:.7}
+.learned-btn.is-learned{
+  background:var(--teal);border-color:var(--teal);
+  color:#fff;box-shadow:0 0 0 3px var(--teal-bg);
+}
+
+/* ── Empty state ── */
+#empty-msg{display:none;text-align:center;padding:60px 20px}
+#empty-msg h2{font-family:'Instrument Serif',serif;font-size:1.6rem;color:var(--muted);margin-bottom:8px}
+#empty-msg p{font-size:.85rem;color:var(--muted2)}
+
+/* ── Summary bar — safe area aware ── */
+#sum-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:150;
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+  /* Account for iPhone home indicator / safe area */
+  padding:10px max(16px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  display:flex;align-items:center;gap:12px;
+  flex-wrap:wrap;
+}
+.sum-item{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.04em;display:flex;align-items:center;gap:6px}
+.sum-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.sum-dot.green{background:var(--accent)}.sum-dot.teal{background:var(--teal)}
+#reset-btn{
+  margin-left:auto;background:none;
+  border:1px solid var(--border);color:var(--muted);cursor:pointer;
+  border-radius:7px;font-family:'Syne',sans-serif;font-size:.7rem;font-weight:500;
+  padding:8px 12px;min-height:36px;
+  transition:all .15s;
+  -webkit-appearance:none;appearance:none;
+  touch-action:manipulation;
+}
+#reset-btn:active{border-color:var(--red);color:var(--red)}
+
+/* ── Scrollbar (desktop only) ── */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* ══ RESPONSIVE BREAKPOINTS ══════════════════════════════════ */
+
+/* Small phones (iPhone SE, 375px wide) */
+@media(max-width:400px){
+  .logo{font-size:.95rem}
+  #gp-wrap{max-width:130px}
+  #gp-text{font-size:.52rem}
+  .ch-title{font-size:1rem}
+  .card-q-text{font-size:1.1rem}
+  .card-a-text{font-size:1.05rem}
+}
+
+/* All phones */
+@media(max-width:600px){
+  .cards-grid{grid-template-columns:1fr}
+  .sel-group{width:100%}
+  #shuffle-btn{width:100%;justify-content:center}
+  .ch-title{font-size:1.05rem}
+  /* Stack ch-header on narrow screens */
+  .ch-header{flex-wrap:wrap}
+  .ch-stats{width:100%;text-align:left;display:flex;align-items:center;gap:8px}
+  .ch-prog{width:80px;margin-top:0}
+  /* Increase card height slightly on mobile for readability */
+  .card-wrap{height:210px}
+  .card-wrap.tall{height:260px}
+}
+
+/* Tablets */
+@media(min-width:601px) and (max-width:900px){
+  .cards-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* Landscape iPhone — reduce card height slightly */
+@media(max-height:500px) and (max-width:900px){
+  .card-wrap{height:180px}
+  .card-wrap.tall{height:210px}
+  header{height:48px}
+  #cards-area{padding-top:12px}
+}
+</style>
+<body>
+<header>
+  <div class="logo">AQA Bio <span>Triple Biology</span></div>
+  <div class="header-sep"></div>
+  <div id="gp-wrap"><div id="gp-bg"><div id="gp-bar"></div></div><div id="gp-text">0 of 0 learned</div></div>
+  <button class="hbtn" id="theme-btn" title="Toggle dark/light mode">🌙</button>
+</header>
+<div id="sel-panel">
+  <div class="sel-group">
+    <span class="sel-label">Paper</span>
+    <button class="sel-btn p1" data-action="paper1">📄 Paper 1 (Ch 1–9)</button>
+    <button class="sel-btn p2" data-action="paper2">📄 Paper 2 (Ch 10–18)</button>
+    <button class="sel-btn" data-action="all">All Chapters</button>
+  </div>
+  <div class="sel-group" id="ch-toggles">
+    <span class="sel-label">Chapters</span>
+  </div>
+  <button id="shuffle-btn">⇄ Shuffle Order</button>
+</div>
+<div id="cards-area">
+  <div id="empty-msg">
+    <h2>Select chapters above ↑</h2>
+    <p>Choose Paper 1, Paper 2, All Chapters, or pick individual chapters.</p>
+  </div>
+  <div id="ch-container"></div>
+</div>
+<div id="sum-bar">
+  <div class="sum-item"><div class="sum-dot green"></div><span id="sum-shown">0 cards shown</span></div>
+  <div class="sum-item"><div class="sum-dot teal"></div><span id="sum-learned">0 learned</span></div>
+  <button id="reset-btn">↺ Reset visible</button>
+</div>
+
+<script>
+/* ═══════════════════════════ DATA ═══════════════════════════ */
+const CHAPTERS=[
+/* ── CHAPTER 1 ── */
+{id:"ch1",num:"Ch 1",paper:1,title:"Cell Structure & Transport",cards:[
+{t:"1.1 Microscopy",q:"How many mm in a metre?",a:"1,000"},
+{t:"1.1 Microscopy",q:"What is the highest magnification you can achieve with a light microscope?",a:"×2,000"},
+{t:"1.1 Microscopy",q:"What is the highest magnification you can achieve with an electron microscope?",a:"×2,000,000"},
+{t:"1.1 Microscopy",q:"If an eyepiece lens is ×5 and the objective lens is ×10, what is the overall magnification?",a:"×50"},
+{t:"1.1 Microscopy",q:"Give one reason to use a light microscope rather than an electron microscope.",a:"Cheaper and easier to use"},
+{t:"1.1 Microscopy",q:"Give one reason to use an electron microscope rather than a light microscope.",a:"See in more detail — higher resolution"},
+{t:"1.2 Cell Parts",q:"What is the role of the cell membrane?",a:"Controls passage of substances in and out of cells"},
+{t:"1.2 Cell Parts",q:"What is the role of the cell wall?",a:"Supports and strengthens plant and bacteria cells"},
+{t:"1.2 Cell Parts",q:"What is the role of mitochondria?",a:"Site of aerobic respiration"},
+{t:"1.2 Cell Parts",q:"What is the role of chloroplasts?",a:"Absorb light for photosynthesis"},
+{t:"1.2 Cell Parts",q:"What is the role of ribosomes?",a:"Making new proteins (protein synthesis)"},
+{t:"1.2 Cell Parts",q:"Which part of plant cells is made from cellulose?",a:"The cell wall"},
+{t:"1.3 Prokaryotes",q:"Prokaryotic cells don't contain a true _______?",a:"Nucleus"},
+{t:"1.3 Prokaryotes",q:"What do some bacteria use flagella for?",a:"Movement"},
+{t:"1.3 Prokaryotes",q:"How many micrometres (µm) in a mm?",a:"1,000"},
+{t:"1.3 Prokaryotes",q:"Which is smaller, a virus or bacteria?",a:"A virus"},
+{t:"1.3 Prokaryotes",q:"If an object is 1,000 times bigger than something else, how many orders of magnitude is that?",a:"3"},
+{t:"1.3 Prokaryotes",q:"The genetic material in cells is made from a chemical called…?",a:"DNA"},
+{t:"1.4 Specialised Cells",q:"What is the role of nerve cells?",a:"Carry electrical impulses around the body"},
+{t:"1.4 Specialised Cells",q:"What is the role of red blood cells?",a:"Carry oxygen to cells in the body"},
+{t:"1.4 Specialised Cells",q:"What is the role of muscle cells?",a:"Contract and relax to provide movement"},
+{t:"1.4 Specialised Cells",q:"What is the role of sperm cells?",a:"Fertilise an egg cell; carry the male's DNA"},
+{t:"1.4 Specialised Cells",q:"What is the role of white blood cells?",a:"Destroy pathogens inside the body"},
+{t:"1.4 Specialised Cells",q:"In an embryo, all cells start the same and then differentiate. What does this mean?",a:"Form different types of specialised cells"},
+{t:"1.5 Plant Cells",q:"What is the role of root hair cells?",a:"Absorb water and dissolved minerals from the soil"},
+{t:"1.5 Plant Cells",q:"Why do root hair cells have a large surface area?",a:"So they can absorb water and dissolved minerals quickly"},
+{t:"1.5 Plant Cells",q:"What is the role of xylem cells?",a:"Transport water from the roots to the leaves"},
+{t:"1.5 Plant Cells",q:"What is the role of phloem cells?",a:"Transport dissolved food (sugars) from leaves to the rest of the plant"},
+{t:"1.5 Plant Cells",q:"Xylem has strands of lignin wrapped around it. What does the lignin do?",a:"Strengthens the xylem"},
+{t:"1.5 Plant Cells",q:"What is the name of the green chemical found inside chloroplasts?",a:"Chlorophyll"},
+{t:"1.6 Diffusion",q:"What does diffusion mean?",a:"Spreading out of particles from a high to a low concentration until even"},
+{t:"1.6 Diffusion",q:"True or False — when a gas or liquid has spread out, the particles stop moving.",a:"FALSE — particles never stop moving"},
+{t:"1.6 Diffusion",q:"Why do some cells have a large surface area?",a:"To absorb substances quickly"},
+{t:"1.6 Diffusion",q:"Does increasing the temperature increase or decrease the rate of diffusion?",a:"Increase"},
+{t:"1.6 Diffusion",q:"Does increasing the concentration gradient increase or decrease the rate of diffusion?",a:"Increase"},
+{t:"1.6 Diffusion",q:"Which gas diffuses out of the blood and into the lungs?",a:"Carbon dioxide"},
+{t:"1.7 Osmosis",q:"Osmosis is the movement of water from a dilute to a more concentrated solution through a partially permeable _______?",a:"Membrane"},
+{t:"1.7 Osmosis",q:"Will a piece of potato placed in pure water gain or lose mass?",a:"Gain"},
+{t:"1.7 Osmosis",q:"Does hypertonic mean 'less' or 'more' concentrated?",a:"More concentrated"},
+{t:"1.7 Osmosis",q:"What part of a cell stops plant cells from bursting in water?",a:"Cell wall"},
+{t:"1.7 Osmosis",q:"What is the liquid part of a cell called?",a:"Cytoplasm"},
+{t:"1.7 Osmosis",q:"Which word beginning with 'D' means 'not very concentrated'?",a:"Dilute"},
+{t:"1.8 Experiments",q:"Does hypotonic mean 'less' or 'more' concentrated?",a:"Less concentrated"},
+{t:"1.8 Experiments",q:"Which word beginning with 'I', sometimes used on sports drinks, means 'the same concentration'?",a:"Isotonic"},
+{t:"1.8 Experiments",q:"In an experiment, is the variable that you change yourself the independent or the dependent variable?",a:"Independent"},
+{t:"1.8 Experiments",q:"What is the name for variables in the experiment that you keep the same each time?",a:"Control variables"},
+{t:"1.8 Experiments",q:"What word beginning with 'A' means a result that does not appear to fit a pattern?",a:"Anomalous"},
+{t:"1.8 Experiments",q:"Which variable always goes in the first column of a table and along the bottom of a graph?",a:"Independent variable"},
+{t:"1.9 Active Transport",q:"Active transport moves molecules _______ a concentration gradient.",a:"Against"},
+{t:"1.9 Active Transport",q:"Root hair cells absorb dissolved _______ from the soil using active transport.",a:"Minerals / mineral ions"},
+{t:"1.9 Active Transport",q:"Active transport needs _______ to move molecules.",a:"Energy"},
+{t:"1.9 Active Transport",q:"Sugar is absorbed using active transport in our digestive system by which organ?",a:"Small intestine"},
+{t:"1.9 Active Transport",q:"Cells which do a lot of active transport require lots of energy, released by which part of the cell?",a:"Mitochondria"},
+{t:"1.9 Active Transport",q:"Which word beginning with 'C' means to have lots of particles in a small area?",a:"Concentrated"},
+{t:"1.10 Surface Area",q:"What is the surface area of a cube with sides 1 cm long?",a:"6 cm²"},
+{t:"1.10 Surface Area",q:"What is the surface area of a cube with sides 2 cm long?",a:"24 cm²"},
+{t:"1.10 Surface Area",q:"What is the volume of a cube with sides 2 cm long?",a:"8 cm³"},
+{t:"1.10 Surface Area",q:"Name an adaptation of a gas exchange system (e.g. lungs or gills).",a:"Large surface area / thin membrane / good blood supply"},
+{t:"1.10 Surface Area",q:"What is the scientific name for the air sacs in the lungs?",a:"Alveoli"},
+{t:"1.10 Surface Area",q:"What is the name for the small holes found underneath leaves that let gases diffuse in and out?",a:"Stomata"},
+{t:"1.11 Culturing Microorganisms",q:"Why are bacteria often cultured below human body temperature in schools?",a:"To prevent growth of dangerous mutant strains"},
+{t:"1.11 Culturing Microorganisms",q:"Why is the lid of the Petri dish kept closed whenever possible?",a:"To prevent contamination by unwanted microorganisms"},
+{t:"1.11 Culturing Microorganisms",q:"How do bacteria divide?",a:"Binary fission"},
+{t:"1.11 Culturing Microorganisms",q:"The liquid or gel used to grow microorganisms containing all necessary nutrients is known as a _______ medium.",a:"Culture"},
+{t:"1.11 Culturing Microorganisms",q:"Which 'I' word means to place bacteria onto the sterile agar?",a:"Inoculate"},
+{t:"1.11 Culturing Microorganisms",q:"Which word refers to a change in the DNA of bacteria?",a:"Mutation"},
+{t:"1.11 Culturing Microorganisms",q:"If a strain of bacteria divides once every 30 minutes, starting with one bacterium, how many will there be after 6 hours?",a:"4,096"},
+{t:"1.11 Culturing Microorganisms",q:"Why might bacteria not divide at their optimum rate?",a:"Not enough nutrients or space"},
+{t:"1.11 Culturing Microorganisms",q:"The zone of i_______ on a Petri dish shows where bacteria are not growing.",a:"Inhibition"},
+{t:"1.11 Culturing Microorganisms",q:"What is the area of a circle with a radius of 2 mm?",a:"12.57 mm²"},
+{t:"1.11 Culturing Microorganisms",q:"What is the area of a circle with a diameter of 10 mm?",a:"78.54 mm²"},
+{t:"1.11 Culturing Microorganisms",q:"A growing group of bacteria on an agar plate is known as a c_______.",a:"Colony"},
+]},
+/* ── CHAPTER 2 ── */
+{id:"ch2",num:"Ch 2",paper:1,title:"Cell Division",cards:[
+{t:"2.1 Chromosomes",q:"How many pairs of chromosomes would you expect to find in a human body cell?",a:"23 pairs"},
+{t:"2.1 Chromosomes",q:"How many chromosomes in total would you expect to find in a human body cell?",a:"46"},
+{t:"2.1 Chromosomes",q:"A short section of DNA that gives a cell the code to make a particular protein is called a _______.",a:"Gene"},
+{t:"2.1 Chromosomes",q:"Before a cell can divide all of its genetic material must be _______.",a:"Copied / replicated"},
+{t:"2.1 Chromosomes",q:"What word describes the nucleus of a cell dividing?",a:"Mitosis"},
+{t:"2.1 Chromosomes",q:"Mitosis is needed for growth, _______ and development of multicellular organisms.",a:"Repair"},
+{t:"2.2 Cell Growth",q:"Which parts of a plant are where growth occurs?",a:"Meristems (tips of roots and shoots)"},
+{t:"2.2 Cell Growth",q:"How many cells are in your body — millions, billions or trillions?",a:"Trillions"},
+{t:"2.2 Cell Growth",q:"What 'M' is the name for the unspecialised cells found in plants that can undergo mitosis?",a:"Meristem cells"},
+{t:"2.2 Cell Growth",q:"What is the name for the unspecialised cells found in humans?",a:"Stem cells"},
+{t:"2.2 Cell Growth",q:"In an embryo, all cells start the same and then differentiate. What does this mean?",a:"Form different types of specialised cells"},
+{t:"2.2 Cell Growth",q:"Cells produced in mitosis are _______ identical.",a:"Genetically"},
+{t:"2.3 Stem Cells",q:"True or false — adult stem cells can differentiate into any type of cell.",a:"FALSE — adult stem cells are more limited"},
+{t:"2.3 Stem Cells",q:"Fertilisation means the fusing of _______.",a:"A sperm and egg nucleus"},
+{t:"2.3 Stem Cells",q:"How many cells make up a zygote?",a:"1"},
+{t:"2.3 Stem Cells",q:"What 'E' is the name for stem cells found in the embryo?",a:"Embryonic stem cells"},
+{t:"2.3 Stem Cells",q:"Name a condition that scientists hope might be treated using stem cells.",a:"Diabetes / paralysis / Parkinson's"},
+{t:"2.3 Stem Cells",q:"Meristem cells can be found where?",a:"Tips of roots and shoots in plants"},
+{t:"2.4 Uses of Stem Cells",q:"Reproductive cloning means using cloned cells to do what?",a:"Create a new organism"},
+{t:"2.4 Uses of Stem Cells",q:"Therapeutic cloning means using cloned cells to do what?",a:"Treat disease / repair damaged tissue"},
+{t:"2.4 Uses of Stem Cells",q:"Diabetes type 1 is caused when which organ doesn't produce insulin?",a:"Pancreas"},
+{t:"2.4 Uses of Stem Cells",q:"Parkinson's disease affects which part of the body?",a:"The brain"},
+{t:"2.4 Uses of Stem Cells",q:"What is a risk from putting stem cells from one person into another person?",a:"Rejection by immune system"},
+{t:"2.4 Uses of Stem Cells",q:"Why aren't stem cells used all the time in hospitals?",a:"Ethical issues / not yet perfected / limited donors"},
+]},
+/* ── CHAPTER 3 ── */
+{id:"ch3",num:"Ch 3",paper:1,title:"Organisation & Digestive System",cards:[
+{t:"3.1 Organisation",q:"What is the term for a group of cells with similar structure working together?",a:"Tissue"},
+{t:"3.1 Organisation",q:"What is the term for a group of tissues working together?",a:"Organ"},
+{t:"3.1 Organisation",q:"Which type of tissue beginning with 'E' comes in flat layers and lines the inside of organs?",a:"Epithelial tissue"},
+{t:"3.1 Organisation",q:"Which organ produces the hormone insulin?",a:"Pancreas"},
+{t:"3.1 Organisation",q:"Which organs remove the waste product urea from the blood?",a:"Kidneys"},
+{t:"3.1 Organisation",q:"Which organs would be found in the cardiovascular system?",a:"Heart and blood vessels"},
+{t:"3.2 Digestive System",q:"Which organ absorbs soluble, digested food particles?",a:"Small intestine"},
+{t:"3.2 Digestive System",q:"Which organ absorbs water from food?",a:"Large intestine"},
+{t:"3.2 Digestive System",q:"Which organ makes bile?",a:"Liver"},
+{t:"3.2 Digestive System",q:"Which organ stores bile?",a:"Gall bladder"},
+{t:"3.2 Digestive System",q:"What do salivary glands produce?",a:"Amylase enzyme (in saliva)"},
+{t:"3.2 Digestive System",q:"Why does the small intestine have a large surface area?",a:"To absorb digested food quickly"},
+{t:"3.3 Food Molecules",q:"Carbohydrates are made up from _______ sugars.",a:"Simple"},
+{t:"3.3 Food Molecules",q:"Proteins are made up from _______ acids.",a:"Amino"},
+{t:"3.3 Food Molecules",q:"Lipids are made up of fatty acids and _______.",a:"Glycerol"},
+{t:"3.3 Food Molecules",q:"Benedict's test turns green/orange if what is present?",a:"Sugar (reducing sugar)"},
+{t:"3.3 Food Molecules",q:"Iodine turns from brown to black if what is present?",a:"Starch"},
+{t:"3.3 Food Molecules",q:"Biuret's test turns from blue to lilac if what is present?",a:"Protein"},
+{t:"3.4 Enzymes",q:"Enzymes are _______ catalysts.",a:"Biological"},
+{t:"3.4 Enzymes",q:"Substrates fit into the _______ site of an enzyme.",a:"Active"},
+{t:"3.4 Enzymes",q:"True or False — enzymes are used up in a reaction.",a:"FALSE"},
+{t:"3.4 Enzymes",q:"Are enzymes proteins, fats or carbohydrates?",a:"Proteins"},
+{t:"3.4 Enzymes",q:"The sum of all the reactions in a cell or the body is called M_______.",a:"Metabolism"},
+{t:"3.4 Enzymes",q:"The model used to say how a substrate fits into an active site is called the lock _______ model.",a:"and key"},
+{t:"3.5 Temperature & pH",q:"At low temperatures enzymes work _______.",a:"Slowly"},
+{t:"3.5 Temperature & pH",q:"At high temperatures, enzymes are _______.",a:"Denatured"},
+{t:"3.5 Temperature & pH",q:"What changes shape when an enzyme denatures?",a:"The active site"},
+{t:"3.5 Temperature & pH",q:"What term is used to show the best temperature for an enzyme to work?",a:"Optimum temperature"},
+{t:"3.5 Temperature & pH",q:"What term is used to show the best pH for an enzyme to work?",a:"Optimum pH"},
+{t:"3.5 Temperature & pH",q:"Where might you find enzymes that work in acid?",a:"Stomach"},
+{t:"3.6 Digestive Enzymes",q:"Which type of enzyme breaks down carbohydrates?",a:"Carbohydrase (amylase)"},
+{t:"3.6 Digestive Enzymes",q:"Which type of enzyme breaks down proteins?",a:"Protease"},
+{t:"3.6 Digestive Enzymes",q:"Which type of enzyme breaks down lipids?",a:"Lipase"},
+{t:"3.6 Digestive Enzymes",q:"Digestion breaks down food into small, s_______ pieces.",a:"Soluble"},
+{t:"3.6 Digestive Enzymes",q:"Amino acids are left after digesting what?",a:"Protein"},
+{t:"3.6 Digestive Enzymes",q:"Enzymes pass into the small intestine after being made in which nearby gland?",a:"Pancreas"},
+{t:"3.7 Bile",q:"Bile does what to stomach acid as it enters the small intestine?",a:"Neutralises it (makes it alkaline)"},
+{t:"3.7 Bile",q:"Bile emulsifies fats. This means it does what to the fat?",a:"Breaks it into smaller droplets"},
+{t:"3.7 Bile",q:"Bile is stored in what?",a:"The gall bladder"},
+{t:"3.7 Bile",q:"Which type of acid is found in the stomach?",a:"Hydrochloric acid"},
+{t:"3.7 Bile",q:"Stomach acid destroys pathogens and provides the correct _______ for protease enzymes.",a:"pH"},
+{t:"3.7 Bile",q:"Pepsin is an enzyme that breaks down protein and is found in the _______.",a:"Stomach"},
+]},
+/* ── CHAPTER 4 ── */
+{id:"ch4",num:"Ch 4",paper:1,title:"Organising Animals & Plants",cards:[
+{t:"4.1 Blood",q:"About 55% of blood is a pale yellow liquid called p_______.",a:"Plasma"},
+{t:"4.1 Blood",q:"What is the job of platelets?",a:"Help blood to clot"},
+{t:"4.1 Blood",q:"What is the name of the protein in red blood cells that binds to oxygen?",a:"Haemoglobin"},
+{t:"4.1 Blood",q:"What is the role of white blood cells?",a:"Destroy pathogens / prevent infection"},
+{t:"4.1 Blood",q:"Carbon dioxide, urea and other dissolved substances are found in which part of the blood?",a:"Plasma"},
+{t:"4.1 Blood",q:"Red blood cells have a large surface area for absorbing oxygen but have no _______.",a:"Nucleus"},
+{t:"4.2 Blood Vessels",q:"Which word describes the 'dented disc' shape of a red blood cell?",a:"Biconcave"},
+{t:"4.2 Blood Vessels",q:"Which blood vessels have the thickest walls?",a:"Arteries"},
+{t:"4.2 Blood Vessels",q:"Which blood vessels are thinnest?",a:"Capillaries"},
+{t:"4.2 Blood Vessels",q:"Which blood vessels contain valves?",a:"Veins"},
+{t:"4.2 Blood Vessels",q:"What term describes how the blood travels to both the lungs and then to the rest of the body?",a:"Double circulation"},
+{t:"4.2 Blood Vessels",q:"Which blood vessels carry blood away from the heart?",a:"Arteries"},
+{t:"4.3 The Heart",q:"What is the job of valves in blood vessels?",a:"Prevent backflow / blood flows in the right direction"},
+{t:"4.3 The Heart",q:"Which chambers of the heart are at the top?",a:"Atria / atrium"},
+{t:"4.3 The Heart",q:"Which chambers of the heart are at the bottom?",a:"Ventricles"},
+{t:"4.3 The Heart",q:"What is the job of valves in the heart?",a:"Keep blood flowing in the right direction"},
+{t:"4.3 The Heart",q:"What is the name of the arteries that supply the heart muscle with oxygen?",a:"Coronary arteries"},
+{t:"4.3 The Heart",q:"A stent can be used to do what to an artery?",a:"Keep it open for blood to flow"},
+{t:"4.4 Heart Disease",q:"Which medicines help reduce blood cholesterol in people at risk from heart disease?",a:"Statins"},
+{t:"4.4 Heart Disease",q:"As well as mechanical heart valves, what else could replace a leaky valve?",a:"Valve from another animal (biological replacement)"},
+{t:"4.4 Heart Disease",q:"What is the name for the region of the heart that controls how fast the heart beats?",a:"Pacemaker"},
+{t:"4.4 Heart Disease",q:"A healthy resting heart beat in an adult is what per minute?",a:"70 bpm (60–80)"},
+{t:"4.4 Heart Disease",q:"Why aren't artificial hearts used more often?",a:"Risk of blood clots / cost"},
+{t:"4.4 Heart Disease",q:"Why don't more patients have heart transplants?",a:"Risk / cost / lack of donors"},
+{t:"4.5 Lungs",q:"Roughly how much of the air is nitrogen?",a:"80% (78%)"},
+{t:"4.5 Lungs",q:"What is the scientific name for the air sacs in the lungs?",a:"Alveoli"},
+{t:"4.5 Lungs",q:"What is the name for the sheet of muscle under the lungs?",a:"Diaphragm"},
+{t:"4.5 Lungs",q:"Intercostal muscles are found between which bones?",a:"Ribs"},
+{t:"4.5 Lungs",q:"Lungs have a large surface area and a rich _______ supply.",a:"Blood"},
+{t:"4.5 Lungs",q:"The windpipe (trachea) divides into two tubes called the _______.",a:"Bronchi"},
+{t:"4.6 Plant Structure",q:"Palisade cells in leaves contain lots of which green chemical?",a:"Chlorophyll"},
+{t:"4.6 Plant Structure",q:"Xylem tubes in plants carry what?",a:"Water and dissolved minerals"},
+{t:"4.6 Plant Structure",q:"Phloem tubes in plants carry what?",a:"Dissolved food (sugars)"},
+{t:"4.6 Plant Structure",q:"What is the role of a flower in plants?",a:"Attract pollinators"},
+{t:"4.6 Plant Structure",q:"Spongy mesophyll cells have spaces to allow what to diffuse more easily?",a:"Air / gases / CO₂"},
+{t:"4.6 Plant Structure",q:"Why do some plants have stinging hairs/spikes?",a:"Less chance of being eaten"},
+{t:"4.7 Transpiration",q:"Which sugar do plants make in photosynthesis?",a:"Glucose"},
+{t:"4.7 Transpiration",q:"Translocation moves dissolved sugars from the leaves in what type of tissue?",a:"Phloem"},
+{t:"4.7 Transpiration",q:"Xylem tissue carries water and dissolved m_______ up the stem from the roots.",a:"Minerals / mineral ions"},
+{t:"4.7 Transpiration",q:"Why do leaves need water?",a:"For photosynthesis / support"},
+{t:"4.7 Transpiration",q:"True or false — xylem cells are dead.",a:"TRUE"},
+{t:"4.7 Transpiration",q:"What is the name of the organelle in a plant cell that contains cell sap?",a:"Vacuole"},
+{t:"4.8 Stomata",q:"Which cells surround the stomata?",a:"Guard cells"},
+{t:"4.8 Stomata",q:"Loss of water vapour from the leaves is known as t_______.",a:"Transpiration"},
+{t:"4.8 Stomata",q:"What gas needs to diffuse into leaves for photosynthesis?",a:"Carbon dioxide"},
+{t:"4.8 Stomata",q:"What is the mean of 10, 12, 15, 8, 10?",a:"11"},
+{t:"4.8 Stomata",q:"By which process does water enter the roots of a plant?",a:"Osmosis"},
+{t:"4.8 Stomata",q:"Where in a plant is most of the water lost?",a:"Leaves / stomata"},
+{t:"4.9 Water Transport",q:"What conditions would make a plant lose water rapidly?",a:"Hot, dry, windy, bright light"},
+{t:"4.9 Water Transport",q:"Why does increasing temperature increase the rate of photosynthesis?",a:"Enzymes work better / more collisions with substrate"},
+{t:"4.9 Water Transport",q:"What happens to a plant if it loses water faster than it can absorb it?",a:"It wilts / stomata close"},
+{t:"4.9 Water Transport",q:"Water e_______ from cells in leaves and escapes through the s_______.",a:"Evaporates … stomata"},
+{t:"4.9 Water Transport",q:"Why might a plant close its stomata?",a:"To prevent water loss"},
+{t:"4.9 Water Transport",q:"Some water absorbed by the plant is used up in p_______.",a:"Photosynthesis"},
+]},
+/* ── CHAPTER 5 ── */
+{id:"ch5",num:"Ch 5",paper:1,title:"Communicable Diseases",cards:[
+{t:"5.1 Health",q:"Health is a state of physical and _______ wellbeing.",a:"Mental"},
+{t:"5.1 Health",q:"What 'C' is the name for a disease that can be passed from one person to another?",a:"Communicable"},
+{t:"5.1 Health",q:"Name 3 non-disease factors that affect health.",a:"Diet, stress, life situations"},
+{t:"5.1 Health",q:"Give an example of ill health that can be caused by diet.",a:"Anaemia, type 2 diabetes, obesity, rickets"},
+{t:"5.1 Health",q:"Name a 'life situation' which could affect your health.",a:"Where you live, gender, financial status, level of healthcare"},
+{t:"5.1 Health",q:"Viruses living in cells can trigger changes which lead to which 'C'?",a:"Cancer"},
+{t:"5.2 Pathogens",q:"What 'p' is the name for a disease-causing microorganism?",a:"Pathogen"},
+{t:"5.2 Pathogens",q:"Name the 4 types of microorganisms that can cause disease.",a:"Bacteria, viruses, fungi, protists"},
+{t:"5.2 Pathogens",q:"How do bacteria make you feel ill?",a:"Produce toxins that damage tissues"},
+{t:"5.2 Pathogens",q:"How do viruses make you feel ill?",a:"Live and reproduce inside cells, damaging and destroying them"},
+{t:"5.2 Pathogens",q:"How are pathogens spread?",a:"Direct contact, water, air"},
+{t:"5.2 Pathogens",q:"What happens when bacteria and viruses get inside your body?",a:"They reproduce rapidly"},
+{t:"5.3 Culturing Bacteria",q:"Why are bacteria often cultured below human body temperature in schools?",a:"To prevent growth of dangerous mutant strains"},
+{t:"5.3 Culturing Bacteria",q:"Why is the lid of the Petri dish kept closed whenever possible?",a:"To prevent contamination by unwanted microorganisms"},
+{t:"5.3 Culturing Bacteria",q:"How do bacteria divide?",a:"Binary fission"},
+{t:"5.3 Culturing Bacteria",q:"The liquid or gel used to grow microorganisms containing all necessary nutrients is known as a _______ medium.",a:"Culture"},
+{t:"5.3 Culturing Bacteria",q:"Which 'I' word means to place bacteria onto the sterile agar?",a:"Inoculate"},
+{t:"5.3 Culturing Bacteria",q:"Which word refers to a change in the DNA of bacteria?",a:"Mutation"},
+{t:"5.4 Investigating Bacteria",q:"If a strain of bacteria divides once every 30 minutes, starting with one bacterium, how many will there be after 6 hours?",a:"4,096"},
+{t:"5.4 Investigating Bacteria",q:"Why might bacteria not divide at their optimum rate?",a:"Not enough nutrients or space"},
+{t:"5.4 Investigating Bacteria",q:"The zone of i_______ on a Petri dish shows where bacteria are not growing.",a:"Inhibition"},
+{t:"5.4 Investigating Bacteria",q:"What is the area of a circle with a radius of 2 mm?",a:"12.57 mm²"},
+{t:"5.4 Investigating Bacteria",q:"What is the area of a circle with a diameter of 10 mm?",a:"78.54 mm²"},
+{t:"5.4 Investigating Bacteria",q:"A growing group of bacteria on an agar plate is known as a c_______.",a:"Colony"},
+{t:"5.5 Preventing Disease",q:"The spread of disease can be prevented by simple h_______ measures.",a:"Hygiene"},
+{t:"5.5 Preventing Disease",q:"Suggest three ways to prevent disease spread in the kitchen.",a:"Hand washing, disinfectant, care with raw meat"},
+{t:"5.5 Preventing Disease",q:"Dr Semmelweis discovered the importance of doing what in hospitals?",a:"Hand washing before delivering babies"},
+{t:"5.5 Preventing Disease",q:"In vaccinations what is introduced into someone's body?",a:"A small amount of a harmless/inactive pathogen"},
+{t:"5.5 Preventing Disease",q:"What must hospitals do with patients that have highly infectious diseases?",a:"Isolate them"},
+{t:"5.5 Preventing Disease",q:"Which 'V' is something that can pass a pathogen onto a living thing?",a:"Vector"},
+{t:"5.6 Specific Diseases",q:"How is measles spread?",a:"Airborne / droplets"},
+{t:"5.6 Specific Diseases",q:"What are the symptoms of measles?",a:"Rash and fever"},
+{t:"5.6 Specific Diseases",q:"Which cells are infected by the HIV virus?",a:"White blood cells"},
+{t:"5.6 Specific Diseases",q:"How is HIV transmitted between people?",a:"STI / blood / body fluids"},
+{t:"5.6 Specific Diseases",q:"How is Tobacco Mosaic Virus spread?",a:"Vectors / insects / touching infected plants"},
+{t:"5.6 Specific Diseases",q:"How can the spread of Tobacco Mosaic Virus be reduced?",a:"Field hygiene / pest control"},
+{t:"5.7 More Diseases",q:"Which microorganism causes Salmonella food poisoning?",a:"Bacteria"},
+{t:"5.7 More Diseases",q:"What are the symptoms of Salmonella food poisoning?",a:"Fever, stomach cramps, diarrhoea, vomiting"},
+{t:"5.7 More Diseases",q:"Which microorganism causes gonorrhoea?",a:"Bacteria"},
+{t:"5.7 More Diseases",q:"What are the symptoms of gonorrhoea?",a:"Discharge / pain on urination"},
+{t:"5.7 More Diseases",q:"How is gonorrhoea transmitted between people?",a:"STI (sexually transmitted infection)"},
+{t:"5.7 More Diseases",q:"Why is 'crown gall disease' in plants unusual?",a:"There are few plant diseases caused by bacteria"},
+{t:"5.8 More Diseases",q:"Which type of microorganism causes Rose black spot?",a:"Fungus"},
+{t:"5.8 More Diseases",q:"Which type of microorganism causes malaria?",a:"Protist"},
+{t:"5.8 More Diseases",q:"How is malaria spread?",a:"Bite of (certain) mosquitoes"},
+{t:"5.8 More Diseases",q:"Which parts of the body are damaged by malaria?",a:"Liver and blood"},
+{t:"5.8 More Diseases",q:"What are the symptoms of malaria?",a:"Fever and shaking"},
+{t:"5.8 More Diseases",q:"How is malaria prevented from spreading?",a:"Kill vectors / prevent them breeding / mosquito nets"},
+{t:"5.9 Immune System",q:"How does your skin prevent pathogens entering your body?",a:"Physical barrier / antimicrobial secretions"},
+{t:"5.9 Immune System",q:"How are your lungs protected from infection?",a:"Produce mucus / cilia"},
+{t:"5.9 Immune System",q:"What happens to pathogens that are ingested by white blood cells?",a:"They are destroyed"},
+{t:"5.9 Immune System",q:"What do antibodies attach to?",a:"Antigens"},
+{t:"5.9 Immune System",q:"What do antitoxin molecules bind to?",a:"Toxins"},
+{t:"5.9 Immune System",q:"What is an autoimmune disease?",a:"When the body attacks its own cells"},
+{t:"5.10 Plant Disease",q:"Aphids are a plant pest that attach their mouthparts to the plant's p_______.",a:"Phloem"},
+{t:"5.10 Plant Disease",q:"Which 3 types of microorganism can be plant pathogens?",a:"Fungi, bacteria, viruses"},
+{t:"5.10 Plant Disease",q:"When a plant lacks certain ions/minerals it has a d_______ of that mineral.",a:"Deficiency"},
+{t:"5.10 Plant Disease",q:"What do plants make from the mineral magnesium?",a:"Chlorophyll"},
+{t:"5.10 Plant Disease",q:"Yellowing of leaves in plants is known as what?",a:"Chlorosis"},
+{t:"5.10 Plant Disease",q:"How can plant diseases be diagnosed?",a:"Testing kits / observation / lab analysis"},
+{t:"5.11 Plant Defences",q:"What is the tough waxy layer on the surface of a leaf called?",a:"Cuticle"},
+{t:"5.11 Plant Defences",q:"What are the tough cell walls of plant cells made of?",a:"Cellulose"},
+{t:"5.11 Plant Defences",q:"Many plants produce chemical defences against insects and bacteria. Why are scientists interested in these compounds?",a:"They could be used as medicines / antibiotics"},
+{t:"5.11 Plant Defences",q:"How do plants protect themselves against herbivores?",a:"Thorns / spines / hairs"},
+{t:"5.11 Plant Defences",q:"Thorns are an example of a m_______ adaptation of plants.",a:"Mechanical"},
+{t:"5.11 Plant Defences",q:"Organisms that feed exclusively on plants are known as what?",a:"Herbivores"},
+]},
+/* ── CHAPTER 6 ── */
+{id:"ch6",num:"Ch 6",paper:1,title:"Preventing & Treating Disease",cards:[
+{t:"6.1 Vaccines",q:"What is a vaccine made of?",a:"A dead or inactive pathogen"},
+{t:"6.1 Vaccines",q:"Which cells produce antibodies?",a:"White blood cells (lymphocytes)"},
+{t:"6.1 Vaccines",q:"Which disease was completely wiped out by vaccinations?",a:"Smallpox"},
+{t:"6.1 Vaccines",q:"What term describes when a large proportion of the population is immune?",a:"Herd immunity"},
+{t:"6.1 Vaccines",q:"What are the unique proteins on the surface of cells called?",a:"Antigens"},
+{t:"6.1 Vaccines",q:"True or false: immunity means you have antibodies in your blood against a disease.",a:"FALSE — memory cells are also needed"},
+{t:"6.2 Drugs",q:"Why don't painkillers cure disease?",a:"They only treat the symptoms"},
+{t:"6.2 Drugs",q:"What do antibiotics kill?",a:"Bacteria in the body (but not viruses)"},
+{t:"6.2 Drugs",q:"What do antiseptics kill?",a:"Microorganisms in the environment"},
+{t:"6.2 Drugs",q:"Where do viruses reproduce?",a:"Inside cells"},
+{t:"6.2 Drugs",q:"Which word describes when bacteria stop being killed by antibiotics?",a:"Resistance"},
+{t:"6.2 Drugs",q:"What was the first antibiotic?",a:"Penicillin"},
+{t:"6.3 Drug Discovery",q:"Where does the drug digitalis come from?",a:"Foxglove plant"},
+{t:"6.3 Drug Discovery",q:"Aspirin is a painkiller based on a chemical found in what?",a:"Tree bark (willow)"},
+{t:"6.3 Drug Discovery",q:"Where does penicillin come from?",a:"A mould (fungus)"},
+{t:"6.3 Drug Discovery",q:"Who discovered penicillin?",a:"Alexander Fleming"},
+{t:"6.3 Drug Discovery",q:"When was penicillin discovered?",a:"1928"},
+{t:"6.3 Drug Discovery",q:"How are most new drugs produced today?",a:"Made by chemists in laboratories"},
+{t:"6.4 Drug Trials",q:"What does the 'efficacy' of a drug mean?",a:"How well it works"},
+{t:"6.4 Drug Trials",q:"What does the 'toxicity' of a drug mean?",a:"How harmful / toxic the drug is"},
+{t:"6.4 Drug Trials",q:"During preclinical trials, what are new drugs tested on first?",a:"Cells in a lab / animals"},
+{t:"6.4 Drug Trials",q:"Clinical trials test the drugs first on who?",a:"Healthy volunteers"},
+{t:"6.4 Drug Trials",q:"What word describes a drug that contains no active compounds?",a:"Placebo"},
+{t:"6.4 Drug Trials",q:"In a double-blind trial, who knows who is getting the new drug: doctor or patient?",a:"Neither"},
+{t:"6.5 Monoclonal Antibodies",q:"What is a hybridoma cell?",a:"A fusion of a B-lymphocyte and a tumour cell"},
+{t:"6.5 Monoclonal Antibodies",q:"Pregnancy tests use monoclonal antibodies to detect which hormone?",a:"hCG"},
+{t:"6.5 Monoclonal Antibodies",q:"Which 'c' means to make a genetically identical copy of a cell?",a:"Clone"},
+{t:"6.5 Monoclonal Antibodies",q:"How are monoclonal antibodies used in hospitals?",a:"To diagnose disease / locate tumours"},
+{t:"6.5 Monoclonal Antibodies",q:"What 'a' are the chemicals that antibodies attach to?",a:"Antigens"},
+{t:"6.5 Monoclonal Antibodies",q:"Which animal's cells are often used to make monoclonal antibodies?",a:"Mice"},
+{t:"6.6 Monoclonal Antibodies Uses",q:"Monoclonal antibodies can be used in the treatment of d_______.",a:"Disease / cancer"},
+{t:"6.6 Monoclonal Antibodies Uses",q:"Scientists are using monoclonal antibodies to target c_______ cells.",a:"Cancer"},
+{t:"6.6 Monoclonal Antibodies Uses",q:"What can be attached to monoclonal antibodies by scientists to destroy cells?",a:"Radioactive substances / drugs / toxins"},
+{t:"6.6 Monoclonal Antibodies Uses",q:"What are the limitations of using monoclonal antibodies?",a:"Side effects / not specific enough"},
+{t:"6.6 Monoclonal Antibodies Uses",q:"A cell which is a combination of two different cells is known as a h_______ cell.",a:"Hybridoma"},
+{t:"6.6 Monoclonal Antibodies Uses",q:"White blood cells that engulf pathogens are known as ph_______.",a:"Phagocytes"},
+]},
+/* ── CHAPTER 7 ── */
+{id:"ch7",num:"Ch 7",paper:1,title:"Non-Communicable Diseases",cards:[
+{t:"7.1 Risk Factors",q:"Name 2 lifestyle risk factors for diseases.",a:"Smoking, lack of exercise, overeating, UV exposure"},
+{t:"7.1 Risk Factors",q:"A possible link between two factors is known as a c_______.",a:"Correlation"},
+{t:"7.1 Risk Factors",q:"Non-communicable diseases cannot be p_______ to another person.",a:"Passed"},
+{t:"7.1 Risk Factors",q:"Carcinogens are chemicals that can cause which disease?",a:"Cancer"},
+{t:"7.1 Risk Factors",q:"Radiation that can damage DNA is known as i_______ radiation.",a:"Ionising"},
+{t:"7.1 Risk Factors",q:"A c_______ mechanism can explain how a factor causes a disease.",a:"Causal"},
+{t:"7.2 Cancer",q:"A t_______ forms when cells divide uncontrollably.",a:"Tumour"},
+{t:"7.2 Cancer",q:"Which type of tumour does not invade other parts of the body?",a:"Benign"},
+{t:"7.2 Cancer",q:"Which type of treatment uses targeted doses of radiation?",a:"Radiotherapy"},
+{t:"7.2 Cancer",q:"Which type of treatment uses chemicals to destroy cancer cells?",a:"Chemotherapy"},
+{t:"7.2 Cancer",q:"Which lifestyle factors are associated with cancer?",a:"Smoking, UV exposure, obesity"},
+{t:"7.2 Cancer",q:"Which type of pathogen can cause some cancers?",a:"Viruses"},
+{t:"7.3 Smoking",q:"What is the name of the addictive drug found in tobacco smoke?",a:"Nicotine"},
+{t:"7.3 Smoking",q:"Which poisonous gas is found in tobacco smoke?",a:"Carbon monoxide"},
+{t:"7.3 Smoking",q:"Why can smoking during pregnancy possibly harm a baby?",a:"Oxygen shortage (CO binds to haemoglobin)"},
+{t:"7.3 Smoking",q:"What does COPD stand for?",a:"Chronic Obstructive Pulmonary Disease"},
+{t:"7.3 Smoking",q:"Which organ apart from the lungs is affected by smoking?",a:"Heart"},
+{t:"7.3 Smoking",q:"Which disease results in sore bronchi due to coughing?",a:"Bronchitis"},
+{t:"7.4 Obesity",q:"What happens to excess food that we eat?",a:"It is stored as fat"},
+{t:"7.4 Obesity",q:"Which two organs particularly benefit from exercise?",a:"Heart and lungs"},
+{t:"7.4 Obesity",q:"Which condition affecting your joints can be made worse by obesity?",a:"Arthritis"},
+{t:"7.4 Obesity",q:"High blood p_______ can result from stress and lack of exercise.",a:"Pressure"},
+{t:"7.4 Obesity",q:"Which form of diabetes is associated with obesity?",a:"Type 2 diabetes"},
+{t:"7.4 Obesity",q:"Diabetics cannot control blood g_______ levels.",a:"Glucose"},
+{t:"7.5 Other Risks",q:"Which 2 organs are particularly at risk from alcohol damage?",a:"Brain and liver"},
+{t:"7.5 Other Risks",q:"How does alcohol affect reaction time?",a:"Slows it down"},
+{t:"7.5 Other Risks",q:"How much alcohol do doctors suggest is safe during pregnancy?",a:"None"},
+{t:"7.5 Other Risks",q:"Name a source of ionising radiation.",a:"UV, X-rays, ground radiation, nuclear accidents"},
+{t:"7.5 Other Risks",q:"What does ionising radiation damage in your body?",a:"DNA"},
+{t:"7.5 Other Risks",q:"Cirrhosis is a disease of which organ?",a:"The liver"},
+]},
+/* ── CHAPTER 8 ── */
+{id:"ch8",num:"Ch 8",paper:1,title:"Photosynthesis",cards:[
+{t:"8.1 Photosynthesis",q:"How is energy transferred from the environment to the chloroplast?",a:"As light"},
+{t:"8.1 Photosynthesis",q:"If energy is transferred to a reaction FROM the environment it is an e_______ reaction.",a:"Endothermic"},
+{t:"8.1 Photosynthesis",q:"Much of the glucose made by plants is stored as insoluble s_______.",a:"Starch"},
+{t:"8.1 Photosynthesis",q:"Name 2 things about the shape of leaves that help them do their job.",a:"Thin / large surface area"},
+{t:"8.1 Photosynthesis",q:"Name the green chemical in plants that absorbs light.",a:"Chlorophyll"},
+{t:"8.1 Photosynthesis",q:"Xylem brings water to the leaves, but what does phloem take away from the leaves?",a:"Dissolved sugars / glucose"},
+{t:"8.2 Limiting Factors",q:"Increasing light intensity makes the rate of photosynthesis _______.",a:"Increase"},
+{t:"8.2 Limiting Factors",q:"Decreasing the carbon dioxide concentration makes the rate of photosynthesis _______.",a:"Decrease"},
+{t:"8.2 Limiting Factors",q:"If the temperature gets too high, e_______ in the plant will not work as well.",a:"Enzymes"},
+{t:"8.2 Limiting Factors",q:"Which 'M' metallic element is needed to make chlorophyll?",a:"Magnesium"},
+{t:"8.2 Limiting Factors",q:"Why don't plants grow well in the winter?",a:"Not enough light / cold temperature"},
+{t:"8.2 Limiting Factors",q:"Which waste product from photosynthesis is useful to animals?",a:"Oxygen"},
+{t:"8.3 Uses of Glucose",q:"Cellulose is used to strengthen which part of a plant cell?",a:"Cell wall"},
+{t:"8.3 Uses of Glucose",q:"The carbohydrate starch is the storage form of which sugar?",a:"Glucose"},
+{t:"8.3 Uses of Glucose",q:"Which chemical turns from brown to blue/black in the presence of starch?",a:"Iodine solution"},
+{t:"8.3 Uses of Glucose",q:"TRUE or FALSE: Plants photosynthesise in the day and respire at night.",a:"FALSE — plants respire all the time"},
+{t:"8.3 Uses of Glucose",q:"Plants can make amino acids that are used to build which 'P' molecule?",a:"Protein"},
+{t:"8.3 Uses of Glucose",q:"Plants that get their nitrates from animals rather than the soil are known as c_______ plants.",a:"Carnivorous"},
+{t:"8.4 Greenhouses",q:"A tomato in a greenhouse goes from 9 g to 16 g in a week. What is the mass increase?",a:"7 g"},
+{t:"8.4 Greenhouses",q:"What is the % change in mass for a tomato growing from 9 g to 16 g?",a:"77.8%"},
+{t:"8.4 Greenhouses",q:"What does it mean when fruit is grown 'off-season'?",a:"Grown outside its natural growing season"},
+{t:"8.4 Greenhouses",q:"Hydroponics refers to plants being grown in nutrient-rich water rather than what?",a:"Soil"},
+{t:"8.4 Greenhouses",q:"How do farmers benefit from growing crops in greenhouses?",a:"Control conditions / grow off-season / higher yield"},
+{t:"8.4 Greenhouses",q:"A crop is sold for £12,000. The cost to grow it was £3,200. What is the profit?",a:"£8,800"},
+]},
+/* ── CHAPTER 9 ── */
+{id:"ch9",num:"Ch 9",paper:1,title:"Respiration",cards:[
+{t:"9.1 Aerobic Respiration",q:"Aerobic respiration requires which two reactants?",a:"Glucose and oxygen"},
+{t:"9.1 Aerobic Respiration",q:"Aerobic respiration produces which two products?",a:"Carbon dioxide and water"},
+{t:"9.1 Aerobic Respiration",q:"In which part of the cell does aerobic respiration occur?",a:"Mitochondria"},
+{t:"9.1 Aerobic Respiration",q:"Which 'S' means to build new molecules in cells?",a:"Synthesise"},
+{t:"9.1 Aerobic Respiration",q:"Why do plants need energy from respiration?",a:"Active transport / growth / movement"},
+{t:"9.1 Aerobic Respiration",q:"What does an exothermic reaction transfer to its surroundings?",a:"Energy (heat)"},
+{t:"9.2 Exercise",q:"Write the word equation for aerobic respiration.",a:"Glucose + oxygen → carbon dioxide + water"},
+{t:"9.2 Exercise",q:"Muscles can store glucose in the form of g_______.",a:"Glycogen"},
+{t:"9.2 Exercise",q:"How is blood flow increased during exercise?",a:"Heart beats faster"},
+{t:"9.2 Exercise",q:"How does breathing change during exercise?",a:"Breathing rate and depth increase"},
+{t:"9.2 Exercise",q:"Energy is transferred in respiration so your muscles can _______.",a:"Contract"},
+{t:"9.2 Exercise",q:"During exercise more _______ _______ must be released via the lungs.",a:"Carbon dioxide"},
+{t:"9.3 Anaerobic Respiration",q:"Write the word equation for anaerobic respiration in animal cells.",a:"Glucose → lactic acid"},
+{t:"9.3 Anaerobic Respiration",q:"Build-up of lactic acid in the muscles creates an o_______ d_______.",a:"Oxygen debt"},
+{t:"9.3 Anaerobic Respiration",q:"Anaerobic respiration in yeast cells is also known as _______.",a:"Fermentation"},
+{t:"9.3 Anaerobic Respiration",q:"What is the common name for ethanol?",a:"Alcohol"},
+{t:"9.3 Anaerobic Respiration",q:"What has to be absent for anaerobic respiration to occur?",a:"Oxygen"},
+{t:"9.3 Anaerobic Respiration",q:"Where in the cell does anaerobic respiration occur?",a:"Cytoplasm"},
+{t:"9.4 Metabolism",q:"Which 'M' means the sum of all the reactions in a cell or the body?",a:"Metabolism"},
+{t:"9.4 Metabolism",q:"Starch and glycogen are carbohydrates made from which sugar?",a:"Glucose"},
+{t:"9.4 Metabolism",q:"The liver breaks down excess proteins to make the waste product u_______.",a:"Urea"},
+{t:"9.4 Metabolism",q:"After breaking down old red blood cells, the liver can store which mineral?",a:"Iron"},
+{t:"9.4 Metabolism",q:"Where in the body is urea removed from the blood?",a:"Kidneys"},
+{t:"9.4 Metabolism",q:"How is the liver linked to anaerobic respiration?",a:"Liver converts lactic acid back to glucose"},
+]},
+/* ── CHAPTER 10 ── */
+{id:"ch10",num:"Ch 10",paper:2,title:"Human Nervous System",cards:[
+{t:"10.1 Homeostasis",q:"Maintaining constant body conditions is known as?",a:"Homeostasis"},
+{t:"10.1 Homeostasis",q:"Name 2 internal conditions that the body controls.",a:"Temperature, water content, blood glucose"},
+{t:"10.1 Homeostasis",q:"What 'R' are cells that detect changes in the environment?",a:"Receptors"},
+{t:"10.1 Homeostasis",q:"What in cells is particularly affected if the temperature is too low or too high?",a:"Enzymes"},
+{t:"10.1 Homeostasis",q:"The brain acts as a c_______ centre for the nervous and hormonal systems.",a:"Coordinating"},
+{t:"10.1 Homeostasis",q:"Muscles or glands that respond to changes are known as what?",a:"Effectors"},
+{t:"10.2 Nervous System",q:"What 'n' are the cells of the nervous system?",a:"Neurones (NOT nerves!)"},
+{t:"10.2 Nervous System",q:"What 'S' is a change in the internal or external environment?",a:"Stimulus"},
+{t:"10.2 Nervous System",q:"The Central Nervous System (CNS) is made up of what?",a:"Brain and spinal cord"},
+{t:"10.2 Nervous System",q:"Which type of cell carries information from the CNS to your muscles?",a:"Motor neurones"},
+{t:"10.2 Nervous System",q:"Name an effector in your body.",a:"Pancreas / salivary glands / stomach / muscle"},
+{t:"10.2 Nervous System",q:"An i_______ passes along a neurone.",a:"Impulse"},
+{t:"10.3 Reflexes",q:"What are reflexes for?",a:"To avoid harm / danger"},
+{t:"10.3 Reflexes",q:"What are the tiny gaps between neurones called?",a:"Synapses"},
+{t:"10.3 Reflexes",q:"What are the two types of neurone carrying impulses to and from the CNS?",a:"Sensory and motor"},
+{t:"10.3 Reflexes",q:"Which neurone found in the spinal cord is involved with reflex arcs?",a:"Relay neurone"},
+{t:"10.3 Reflexes",q:"Name an everyday function of your body that relies on reflexes.",a:"Blink / swallow / breathing"},
+{t:"10.3 Reflexes",q:"TRUE or FALSE — in a reflex action the brain does not receive impulses.",a:"FALSE — the brain does receive impulses, but the response doesn't wait for it"},
+{t:"10.4 The Brain",q:"What roles are played by the cerebral cortex?",a:"Consciousness, intelligence, memory, language"},
+{t:"10.4 The Brain",q:"What roles are played by the cerebellum?",a:"Coordinating muscles, balance"},
+{t:"10.4 The Brain",q:"What is the medulla responsible for?",a:"Control of heartbeat, gut and breathing"},
+{t:"10.4 The Brain",q:"What type of scan is commonly used to study the brain?",a:"MRI"},
+{t:"10.4 The Brain",q:"The brain can be stimulated e_______ to study areas of the brain.",a:"Electrically"},
+{t:"10.4 The Brain",q:"Why is it difficult for some drugs to reach the brain?",a:"Stopped by membranes surrounding the brain"},
+{t:"10.5 The Eye",q:"What is the name for the layer of cells on the inside of the eye that absorb light?",a:"Retina"},
+{t:"10.5 The Eye",q:"The lens is held in place by s_______ ligaments.",a:"Suspensory"},
+{t:"10.5 The Eye",q:"Which muscle contracts to focus the lens?",a:"Ciliary muscle"},
+{t:"10.5 The Eye",q:"The tough outer layer of the eyeball is called the s_______.",a:"Sclera"},
+{t:"10.5 The Eye",q:"What is the role of the iris?",a:"Control how much light enters the eye"},
+{t:"10.5 The Eye",q:"Where are radial and circular muscles found?",a:"In the iris"},
+{t:"10.6 Vision",q:"Which 'A' means to change the shape of the lens to focus on objects?",a:"Accommodation"},
+{t:"10.6 Vision",q:"'Near sightedness' is also known as what?",a:"Myopia"},
+{t:"10.6 Vision",q:"A person with hyperopia cannot focus on _______ objects.",a:"Close (near)"},
+{t:"10.6 Vision",q:"If the ciliary muscle relaxes, the suspensory ligaments go t_______.",a:"Tight"},
+{t:"10.6 Vision",q:"Name two ways to correct vision problems.",a:"Contact lenses, glasses, laser surgery"},
+{t:"10.6 Vision",q:"What shape of lens is used to correct myopia?",a:"Concave (diverging)"},
+]},
+/* ── CHAPTER 11 ── */
+{id:"ch11",num:"Ch 11",paper:2,title:"Hormonal Coordination",cards:[
+{t:"11.1 Endocrine System",q:"Which hormone lowers your blood sugar?",a:"Insulin"},
+{t:"11.1 Endocrine System",q:"Which hormone prepares your body for 'fight or flight'?",a:"Adrenaline"},
+{t:"11.1 Endocrine System",q:"Which 'T' gland controls the body's metabolic rate?",a:"Thyroid"},
+{t:"11.1 Endocrine System",q:"Which gland in women produces oestrogen?",a:"Ovaries"},
+{t:"11.1 Endocrine System",q:"Which 'P' gland is known as the 'master gland'?",a:"Pituitary"},
+{t:"11.1 Endocrine System",q:"How are hormones transported around the body?",a:"In the blood"},
+{t:"11.2 Blood Glucose",q:"Which gland releases insulin?",a:"Pancreas"},
+{t:"11.2 Blood Glucose",q:"Glycogen is the storage form of which sugar?",a:"Glucose"},
+{t:"11.2 Blood Glucose",q:"Where is glycogen stored in the body?",a:"Liver / muscles"},
+{t:"11.2 Blood Glucose",q:"What condition occurs if your body does not make enough insulin?",a:"Type 1 diabetes"},
+{t:"11.2 Blood Glucose",q:"Which condition occurs when the body stops responding to insulin?",a:"Type 2 diabetes"},
+{t:"11.2 Blood Glucose",q:"What does insulin do to your blood sugar level?",a:"Decreases it"},
+{t:"11.3 Diabetes Treatment",q:"A person with Type 1 diabetes has to regularly inject what?",a:"Insulin"},
+{t:"11.3 Diabetes Treatment",q:"Name a lifestyle factor a person with Type 1 diabetes should monitor.",a:"Diet / exercise"},
+{t:"11.3 Diabetes Treatment",q:"Why don't more people have pancreas transplants?",a:"Need donors / expensive / risk of rejection"},
+{t:"11.3 Diabetes Treatment",q:"Name a factor linked to Type 2 diabetes.",a:"Obesity / lack of exercise / age"},
+{t:"11.3 Diabetes Treatment",q:"Which type of cells are being used to create new treatments for diabetes?",a:"Stem cells"},
+{t:"11.3 Diabetes Treatment",q:"What is the main treatment for Type 2 diabetes?",a:"Losing weight / diet and exercise"},
+{t:"11.4 Feedback Systems",q:"Which gland releases the hormone TSH?",a:"Pituitary"},
+{t:"11.4 Feedback Systems",q:"Which gland releases the hormone thyroxine?",a:"Thyroid"},
+{t:"11.4 Feedback Systems",q:"Which gland releases the hormone adrenaline?",a:"Adrenal glands"},
+{t:"11.4 Feedback Systems",q:"Negative feedback acts to reverse what?",a:"A change in your internal environment"},
+{t:"11.4 Feedback Systems",q:"What effect does adrenaline have on heart rate?",a:"Increases it"},
+{t:"11.4 Feedback Systems",q:"What effect does adrenaline have on pupils?",a:"They dilate / widen"},
+{t:"11.5 Reproduction Hormones",q:"Oestrogen is produced by which glands?",a:"Ovaries"},
+{t:"11.5 Reproduction Hormones",q:"How many days is typical for a complete menstrual cycle?",a:"28"},
+{t:"11.5 Reproduction Hormones",q:"Around which day in the menstrual cycle is an egg typically released?",a:"Day 12–14"},
+{t:"11.5 Reproduction Hormones",q:"Which word describes when a woman stops menstruating?",a:"Menopause"},
+{t:"11.5 Reproduction Hormones",q:"Primary sexual characteristics in girls and boys are _______ and _______.",a:"Ovaries and testes"},
+{t:"11.5 Reproduction Hormones",q:"What is the name of the main male reproductive hormone?",a:"Testosterone"},
+{t:"11.6 Menstrual Cycle",q:"Which word describes when egg and sperm nuclei fuse?",a:"Fertilisation"},
+{t:"11.6 Menstrual Cycle",q:"Which hormone causes eggs to mature?",a:"FSH"},
+{t:"11.6 Menstrual Cycle",q:"Which hormone triggers ovulation?",a:"LH"},
+{t:"11.6 Menstrual Cycle",q:"Which hormone causes the lining of the uterus to develop?",a:"Oestrogen"},
+{t:"11.6 Menstrual Cycle",q:"Which hormone inhibits the release of both FSH and LH?",a:"Progesterone"},
+{t:"11.6 Menstrual Cycle",q:"Which 'F' contains eggs before they have matured?",a:"Follicle"},
+{t:"11.7 Contraception",q:"Where in the body is an intrauterine device (IUD) placed?",a:"Uterus / womb"},
+{t:"11.7 Contraception",q:"Which type of contraception is often called a 'barrier' method?",a:"Condom"},
+{t:"11.7 Contraception",q:"Chemicals which kill sperm are known as s_______.",a:"Spermicide"},
+{t:"11.7 Contraception",q:"Contraceptive pills may have side effects like increased b_______ p_______.",a:"Blood pressure"},
+{t:"11.7 Contraception",q:"Surgical methods to prevent pregnancy include v_______.",a:"Vasectomies"},
+{t:"11.7 Contraception",q:"What does abstinence mean?",a:"Not having sex at all"},
+{t:"11.8 IVF",q:"What does IVF stand for?",a:"In Vitro Fertilisation"},
+{t:"11.8 IVF",q:"F_______ d_______ are given to women to stimulate egg release.",a:"Fertility drugs"},
+{t:"11.8 IVF",q:"Why isn't IVF carried out multiple times for the same person?",a:"Too expensive / health risks"},
+{t:"11.8 IVF",q:"What is the most common cause of infertility?",a:"Age"},
+{t:"11.8 IVF",q:"Where are the eggs fertilised in IVF placed after a few days?",a:"In the woman's uterus"},
+{t:"11.8 IVF",q:"How can a woman's eggs be stored long term?",a:"By freezing"},
+{t:"11.9 Plant Hormones",q:"What does the word 'tropism' mean?",a:"Growth in a particular direction"},
+{t:"11.9 Plant Hormones",q:"Name two stimuli plants can detect.",a:"Light, gravity, water, touch"},
+{t:"11.9 Plant Hormones",q:"Which direction would a plant grow if it had negative gravitropism?",a:"Away from the ground"},
+{t:"11.9 Plant Hormones",q:"Where are auxins found in plants?",a:"Tip of shoots and roots, near meristem"},
+{t:"11.9 Plant Hormones",q:"What does it mean when a seed 'germinates'?",a:"The seed starts to grow into a plant"},
+{t:"11.9 Plant Hormones",q:"What is it about auxin that causes plants to grow in a certain direction?",a:"Uneven distribution / concentration causes uneven growth"},
+{t:"11.10 Plant Hormone Uses",q:"Where is auxin applied to a cutting?",a:"The cut end"},
+{t:"11.10 Plant Hormone Uses",q:"Why do broad-leaved weeds grow too quickly if exposed to auxin?",a:"They absorb too much"},
+{t:"11.10 Plant Hormone Uses",q:"How do brewers use gibberellins?",a:"To end seed dormancy"},
+{t:"11.10 Plant Hormone Uses",q:"How are gibberellins useful to grape farmers?",a:"Grow larger grapes"},
+{t:"11.10 Plant Hormone Uses",q:"What does ethene do to fruit?",a:"It ripens them"},
+{t:"11.10 Plant Hormone Uses",q:"What word refers to creating genetically identical plants?",a:"Cloning"},
+]},
+/* ── CHAPTER 12 ── */
+{id:"ch12",num:"Ch 12",paper:2,title:"Homeostasis in Action",cards:[
+{t:"12.1 Thermoregulation",q:"Where is the body's thermoregulatory centre found?",a:"Hypothalamus (in the brain)"},
+{t:"12.1 Thermoregulation",q:"What word describes blood vessels widening?",a:"Vasodilation"},
+{t:"12.1 Thermoregulation",q:"Sweat is produced from glands; this is an example of an e_______.",a:"Effector"},
+{t:"12.1 Thermoregulation",q:"Which blood vessels are generally the nearest to the skin?",a:"Capillaries"},
+{t:"12.1 Thermoregulation",q:"How are skeletal muscles involved in thermoregulation?",a:"Shivering — rapid contraction generates heat"},
+{t:"12.1 Thermoregulation",q:"Why must the body be maintained at a constant temperature?",a:"Enzymes must be near their optimum temperature"},
+{t:"12.2 Waste Products",q:"What happens to pH when CO₂ is dissolved in water?",a:"It decreases (becomes more acidic)"},
+{t:"12.2 Waste Products",q:"The waste product urea is produced from excess _______ _______.",a:"Amino acids"},
+{t:"12.2 Waste Products",q:"NH₃, produced by deamination, is commonly known as what?",a:"Ammonia"},
+{t:"12.2 Waste Products",q:"Apart from urea, what other products are removed in urine?",a:"Mineral ions (salts) and water"},
+{t:"12.2 Waste Products",q:"Where is urine stored?",a:"The bladder"},
+{t:"12.2 Waste Products",q:"Apart from urine, how else can water be lost from the body?",a:"Sweat / faeces"},
+{t:"12.3 Kidneys & ADH",q:"What do kidneys filter?",a:"Blood"},
+{t:"12.3 Kidneys & ADH",q:"What happens to all the glucose that is filtered by the kidneys?",a:"Reabsorbed by the kidney (back into blood)"},
+{t:"12.3 Kidneys & ADH",q:"What term describes when the body takes back some water and mineral ions?",a:"Selective reabsorption"},
+{t:"12.3 Kidneys & ADH",q:"In which gland is ADH produced?",a:"Pituitary gland"},
+{t:"12.3 Kidneys & ADH",q:"More ADH means the urine produced is more _______.",a:"Concentrated"},
+{t:"12.3 Kidneys & ADH",q:"Constant monitoring to return water levels by reversing a change is called what?",a:"Negative feedback"},
+{t:"12.4 Dialysis",q:"Approximately how many hours must be spent on a dialysis machine?",a:"About 8 hours"},
+{t:"12.4 Dialysis",q:"Dialysis fluid is the same _______ of glucose and mineral ions as the blood.",a:"Concentration"},
+{t:"12.4 Dialysis",q:"What is not present in dialysis fluid that is present in the patient's blood?",a:"Urea"},
+{t:"12.4 Dialysis",q:"How do substances move into the dialysis fluid?",a:"Diffusion"},
+{t:"12.4 Dialysis",q:"What term describes a membrane that allows some substances to pass through?",a:"Partially permeable"},
+{t:"12.4 Dialysis",q:"Which food group do people on dialysis control carefully?",a:"Protein"},
+{t:"12.5 Kidney Transplants",q:"What is the main risk from transplants?",a:"Rejection"},
+{t:"12.5 Kidney Transplants",q:"What do immunosuppressants do?",a:"Prevent rejection / reduce effects of immune system"},
+{t:"12.5 Kidney Transplants",q:"Where are antigens found?",a:"On the surface of cells"},
+{t:"12.5 Kidney Transplants",q:"What is a donor?",a:"A person who gives an organ or cells to another person"},
+{t:"12.5 Kidney Transplants",q:"Which blood vessels supply the kidneys?",a:"Renal artery and renal vein"},
+{t:"12.5 Kidney Transplants",q:"Suggest an ethical issue affecting xenotransplants (animal organs in humans).",a:"Object to using animal parts / veganism / religious objections"},
+]},
+/* ── CHAPTER 13 ── */
+{id:"ch13",num:"Ch 13",paper:2,title:"Reproduction",cards:[
+{t:"13.1 Reproduction Types",q:"In asexual reproduction, cells are produced by m_______.",a:"Mitosis"},
+{t:"13.1 Reproduction Types",q:"Sperm and egg cells are also known as g_______.",a:"Gametes"},
+{t:"13.1 Reproduction Types",q:"Sexual reproduction requires two p_______.",a:"Parents"},
+{t:"13.1 Reproduction Types",q:"Sperm and egg cells are formed by m_______.",a:"Meiosis"},
+{t:"13.1 Reproduction Types",q:"What is the male sex cell of a plant called?",a:"Pollen"},
+{t:"13.1 Reproduction Types",q:"Clones are g_______ identical.",a:"Genetically"},
+{t:"13.2 Meiosis",q:"Meiosis makes cells with only half the c_______ of the original cell.",a:"Chromosomes"},
+{t:"13.2 Meiosis",q:"Each gamete is u_______.",a:"Unique"},
+{t:"13.2 Meiosis",q:"Human body cells typically contain how many chromosomes?",a:"46 (23 pairs)"},
+{t:"13.2 Meiosis",q:"Which 'V' means the differences between organisms and cells?",a:"Variation"},
+{t:"13.2 Meiosis",q:"Human gametes typically have how many chromosomes?",a:"23"},
+{t:"13.2 Meiosis",q:"Which 'd' means when cells specialise into different cell types?",a:"Differentiate"},
+{t:"13.3 Sexual vs Asexual",q:"When do fungi reproduce sexually?",a:"In poor / dry conditions"},
+{t:"13.3 Sexual vs Asexual",q:"In asexual reproduction, only one _______ is required.",a:"Parent"},
+{t:"13.3 Sexual vs Asexual",q:"Asexual reproduction results in genetically _______ offspring.",a:"Identical"},
+{t:"13.3 Sexual vs Asexual",q:"What is formed when the nuclei of two gametes fuse?",a:"A zygote"},
+{t:"13.3 Sexual vs Asexual",q:"What are pollinators?",a:"Animals that transfer pollen between plants"},
+{t:"13.3 Sexual vs Asexual",q:"Malaria parasites reproduce sexually and asexually due to what?",a:"Part of life cycle in mosquito, part in human"},
+{t:"13.4 DNA",q:"What shape is DNA?",a:"Double helix"},
+{t:"13.4 DNA",q:"A genome is all of the g_______ material of an organism.",a:"Genetic"},
+{t:"13.4 DNA",q:"Where in the cell are chromosomes found?",a:"The nucleus"},
+{t:"13.4 DNA",q:"How many strands of DNA make up a chromosome?",a:"1"},
+{t:"13.4 DNA",q:"What is the name for a small section of DNA that codes for a protein?",a:"Gene"},
+{t:"13.4 DNA",q:"What can scientists discover from understanding genomes?",a:"Identify disease / compare species / ancestors"},
+{t:"13.5 DNA Structure",q:"Which letters are used to represent DNA bases?",a:"A C T G"},
+{t:"13.5 DNA Structure",q:"How do the bases in DNA pair up?",a:"A=T and C=G"},
+{t:"13.5 DNA Structure",q:"Which 'C' word describes matching parts of a pair?",a:"Complementary"},
+{t:"13.5 DNA Structure",q:"Which organelle in the cytoplasm is needed to make proteins?",a:"Ribosome"},
+{t:"13.5 DNA Structure",q:"How many bases are needed to code for one amino acid?",a:"3"},
+{t:"13.5 DNA Structure",q:"A sugar, DNA base and phosphate group together make a n_______.",a:"Nucleotide"},
+{t:"13.6 Genes & Proteins",q:"When a gene code is used to make a protein in a cell, we say the gene has been e_______.",a:"Expressed"},
+{t:"13.6 Genes & Proteins",q:"The phenotype of an organism describes its what?",a:"Characteristics / what it looks like"},
+{t:"13.6 Genes & Proteins",q:"A change in DNA is called a m_______.",a:"Mutation"},
+{t:"13.6 Genes & Proteins",q:"What 'NC' describes genes that don't code for proteins?",a:"Non-coding"},
+{t:"13.6 Genes & Proteins",q:"What else can affect an organism's characteristics apart from its genes?",a:"Environment"},
+{t:"13.6 Genes & Proteins",q:"Which 'S' means to make a new molecule, for example a protein?",a:"Synthesise"},
+{t:"13.7 Inheritance",q:"A homozygote has two identical a_______.",a:"Alleles"},
+{t:"13.7 Inheritance",q:"Which 'P' describes what an organism looks like due to its alleles?",a:"Phenotype"},
+{t:"13.7 Inheritance",q:"What 'D' describes an allele that hides / masks another allele?",a:"Dominant"},
+{t:"13.7 Inheritance",q:"A phenotype that doesn't show up is known as r_______.",a:"Recessive"},
+{t:"13.7 Inheritance",q:"For a genetic cross Bb × Bb, what are the 4 possible genotypes?",a:"BB, Bb, Bb, bb"},
+{t:"13.7 Inheritance",q:"For a genetic cross BB × bb, what are the possible genotypes?",a:"All Bb"},
+{t:"13.8 Sex Determination",q:"Which combination of sex chromosomes in humans is female?",a:"XX"},
+{t:"13.8 Sex Determination",q:"Which combination of sex chromosomes in humans is male?",a:"XY"},
+{t:"13.8 Sex Determination",q:"If all human chromosomes were numbered, which would be the sex chromosomes?",a:"23rd pair"},
+{t:"13.8 Sex Determination",q:"For a genetic cross Aa × Aa, what are the possible genotypes as a percentage?",a:"25% AA, 50% Aa, 25% aa"},
+{t:"13.8 Sex Determination",q:"For a genetic cross Aa × Aa, what are the possible genotypes as a ratio?",a:"1:2:1 (AA:Aa:aa)"},
+{t:"13.8 Sex Determination",q:"For a genetic cross Aa × Aa, what are the possible genotypes as a fraction?",a:"¼ AA, ½ Aa, ¼ aa"},
+{t:"13.9 Inherited Disorders",q:"Polydactyly is a condition where people can be born with extra _______.",a:"Fingers or toes"},
+{t:"13.9 Inherited Disorders",q:"In cystic fibrosis, a person's lungs can become blocked with _______.",a:"Mucus"},
+{t:"13.9 Inherited Disorders",q:"What is the treatment for cystic fibrosis?",a:"Physiotherapy / antibiotics for lungs"},
+{t:"13.9 Inherited Disorders",q:"Is cystic fibrosis caused by a dominant or recessive allele?",a:"Recessive"},
+{t:"13.9 Inherited Disorders",q:"When a person carries a single copy of a recessive allele for a disorder they are a_______.",a:"Carrier"},
+{t:"13.9 Inherited Disorders",q:"Genetic e_______ may provide possible treatment for genetic conditions.",a:"Engineering"},
+{t:"13.10 Screening",q:"Amniocentesis is a way to screen e_______ for genetic disorders.",a:"Embryos"},
+{t:"13.10 Screening",q:"Which 'U' is used to look at the fetus inside of the mother?",a:"Ultrasound"},
+{t:"13.10 Screening",q:"Why aren't all embryos screened?",a:"Cost / risk to mother"},
+{t:"13.10 Screening",q:"Why might people object to embryo screening?",a:"Ethical objections / worried about implications"},
+{t:"13.10 Screening",q:"Why do people test embryos before they are put into the uterus?",a:"To identify healthy embryos"},
+{t:"13.10 Screening",q:"Which chemical is tested in genetic screening?",a:"DNA"},
+]},
+/* ── CHAPTER 14 ── */
+{id:"ch14",num:"Ch 14",paper:2,title:"Variation & Evolution",cards:[
+{t:"14.1 Variation",q:"Which type of variation depends on nature?",a:"Genetic"},
+{t:"14.1 Variation",q:"Which type of variation depends on nurture?",a:"Environmental"},
+{t:"14.1 Variation",q:"Explain why skin colour is a combination of both.",a:"You inherit skin colour genes but sun exposure also affects it"},
+{t:"14.1 Variation",q:"What do genes control?",a:"The physical characteristics that develop"},
+{t:"14.1 Variation",q:"Why is it useful to compare identical twins in research?",a:"Genetically identical — differences are due to environment only"},
+{t:"14.1 Variation",q:"What 'Z' is the name for a fertilised egg cell?",a:"Zygote"},
+{t:"14.2 Evolution",q:"What is the process called that means better adapted individuals are more likely to survive?",a:"Natural selection"},
+{t:"14.2 Evolution",q:"Not all members of a population are the same. What happens to give rise to differences?",a:"Chance mutation"},
+{t:"14.2 Evolution",q:"Are all mutations good?",a:"No — some are beneficial, some are very harmful, some have no effect"},
+{t:"14.2 Evolution",q:"What 'M' is the process which makes sex cells?",a:"Meiosis"},
+{t:"14.2 Evolution",q:"Which 'A' means versions of a gene?",a:"Alleles"},
+{t:"14.2 Evolution",q:"If two organisms cannot breed and produce fertile offspring they are different s_______.",a:"Species"},
+{t:"14.3 Selective Breeding",q:"What is it called when farmers and breeders breed from specially chosen plants and animals?",a:"Selective breeding"},
+{t:"14.3 Selective Breeding",q:"Give examples of desirable traits in farm animals.",a:"Good milk yield, good temperament, stocky build for meat"},
+{t:"14.3 Selective Breeding",q:"Give examples of desirable traits in crops.",a:"Disease resistance, large ears of corn, good fruit production"},
+{t:"14.3 Selective Breeding",q:"What problems occur with selective breeding?",a:"Reduces variation; inbreeding"},
+{t:"14.3 Selective Breeding",q:"True or False — offspring always have the desired characteristics of parents?",a:"FALSE"},
+{t:"14.3 Selective Breeding",q:"Why do some people disagree with selective breeding (e.g. in pedigree dogs)?",a:"Harmful traits / inbreeding / genetic faults persist"},
+{t:"14.4 Genetic Engineering",q:"What is it called when scientists change the DNA of an organism?",a:"Genetic engineering"},
+{t:"14.4 Genetic Engineering",q:"How are desirable genes cut out from DNA?",a:"Using enzymes"},
+{t:"14.4 Genetic Engineering",q:"What vectors can be used to transfer modified genetic material?",a:"Virus or bacteria"},
+{t:"14.4 Genetic Engineering",q:"How has GM improved foods?",a:"Disease resistance, added nutrients, flood-resistant rice, herbicide resistance"},
+{t:"14.4 Genetic Engineering",q:"What 'P' is the name of the rings of DNA found in bacteria?",a:"Plasmid"},
+{t:"14.4 Genetic Engineering",q:"What does the 'GM' in GM crops stand for?",a:"Genetically Modified"},
+{t:"14.5 Cloning",q:"A clone is a _______ identical organism.",a:"Genetically"},
+{t:"14.5 Cloning",q:"Plants can be cloned using t_______ c_______.",a:"Tissue culture"},
+{t:"14.5 Cloning",q:"What characteristics may be selected when cloning animals?",a:"High yield e.g. milk, wool, meat, or appearance"},
+{t:"14.5 Cloning",q:"Embryos can be cloned by removing cells before they have become s_______.",a:"Specialised"},
+{t:"14.5 Cloning",q:"Apart from cost, what is a disadvantage to cloning animals?",a:"Too similar / lack of genetic variation / inbreeding"},
+{t:"14.5 Cloning",q:"What do fertility hormones cause an animal to do?",a:"Produce many egg cells"},
+{t:"14.6 Adult Cell Cloning",q:"In adult cell cloning, what is removed first from an unfertilised egg cell?",a:"Nucleus"},
+{t:"14.6 Adult Cell Cloning",q:"What is inserted into the unfertilised egg cell?",a:"Nucleus from a cell of the animal to be cloned"},
+{t:"14.6 Adult Cell Cloning",q:"What stimulates the new egg cell to divide?",a:"A tiny electric shock"},
+{t:"14.6 Adult Cell Cloning",q:"What was the name of the first mammal cloned from an adult cell?",a:"Dolly the sheep"},
+{t:"14.6 Adult Cell Cloning",q:"Suggest a possible use for animal cloning.",a:"Revive extinct animals / select successful characteristics"},
+{t:"14.6 Adult Cell Cloning",q:"Where does the cloned animal embryo develop?",a:"Uterus / womb of a surrogate"},
+{t:"14.7 GM Debate",q:"Why do some people think GM foods will affect health?",a:"They think not enough testing has been done"},
+{t:"14.7 GM Debate",q:"Why are people worried about GM genes spreading into the wild?",a:"It may affect wild populations and disrupt food chains"},
+{t:"14.7 GM Debate",q:"Why are people worried that pest-resistant crops are a problem?",a:"The 'pests' will have no food — this affects the food chain"},
+{t:"14.7 GM Debate",q:"What is the main benefit of GM crops?",a:"May be the best solution to worldwide food shortage"},
+{t:"14.7 GM Debate",q:"What is the scientific term for genetically identical organisms?",a:"Clones"},
+{t:"14.7 GM Debate",q:"Why is there an increasing need for higher yield crops?",a:"Higher population / more people to feed"},
+]},
+/* ── CHAPTER 15 ── */
+{id:"ch15",num:"Ch 15",paper:2,title:"Genetics & Evolution",cards:[
+{t:"15.1 Mendel & DNA",q:"What was the name of the Austrian monk who discovered the rules of genetic inheritance?",a:"Gregor Mendel"},
+{t:"15.1 Mendel & DNA",q:"What name is given to an allele that masks / hides another allele?",a:"Dominant"},
+{t:"15.1 Mendel & DNA",q:"What name is given to the combination of alleles e.g. AA or Bb?",a:"Genotype"},
+{t:"15.1 Mendel & DNA",q:"Watson, Crick, Wilkins and Franklin discovered the structure of what?",a:"DNA"},
+{t:"15.1 Mendel & DNA",q:"What is the shape of a DNA molecule?",a:"Double helix"},
+{t:"15.1 Mendel & DNA",q:"What is the name for a long string of DNA, containing many genes?",a:"Chromosome"},
+{t:"15.2 Natural Selection",q:"Why did Lamarck think animals (e.g. giraffes) change over time?",a:"Used their features more (e.g. stretched necks for food)"},
+{t:"15.2 Natural Selection",q:"What evidence was there against Lamarck's ideas?",a:"Some characteristics were clearly not passed on to children"},
+{t:"15.2 Natural Selection",q:"Who developed the idea of natural selection causing change in species?",a:"Darwin"},
+{t:"15.2 Natural Selection",q:"Individuals of a species tend to show v_______.",a:"Variation"},
+{t:"15.2 Natural Selection",q:"Organisms with characteristics suited to their environment are more likely to s_______ and b_______.",a:"Survive and breed"},
+{t:"15.2 Natural Selection",q:"Offspring are more likely to have the successful a_______.",a:"Alleles"},
+{t:"15.3 Darwin",q:"Evolution suggests that all organisms came from a common anc_______.",a:"Ancestor"},
+{t:"15.3 Darwin",q:"Why did some religious people not accept Darwin's ideas?",a:"Conflicted with widely held beliefs"},
+{t:"15.3 Darwin",q:"Why couldn't Darwin yet explain the mechanism for variation?",a:"Genes / DNA not yet discovered"},
+{t:"15.3 Darwin",q:"When was Darwin's book 'On the Origin of Species' published?",a:"1859"},
+{t:"15.3 Darwin",q:"What organisms did Darwin use in breeding experiments?",a:"Pigeons"},
+{t:"15.3 Darwin",q:"What has become available since Darwin's time to support the theory of evolution?",a:"Evidence (fossils, DNA comparisons)"},
+{t:"15.4 Speciation",q:"Speciation means the creation of new s_______.",a:"Species"},
+{t:"15.4 Speciation",q:"For speciation to occur, two groups of organisms must become s_______.",a:"Separated"},
+{t:"15.4 Speciation",q:"Isolated populations will have different a_______ due to natural selection.",a:"Alleles"},
+{t:"15.4 Speciation",q:"If isolated populations cannot breed, their genes cannot m_______.",a:"Mix"},
+{t:"15.4 Speciation",q:"Eventually populations become so genetically different they can no longer b_______ to produce fertile offspring.",a:"Breed"},
+{t:"15.4 Speciation",q:"Isolation of populations is common on i_______, for example the Galápagos.",a:"Islands"},
+{t:"15.5 Fossils",q:"When do scientists estimate life began on Earth?",a:"Between 3 and 4 billion years ago"},
+{t:"15.5 Fossils",q:"Fossils only form in which type of rock?",a:"Sedimentary"},
+{t:"15.5 Fossils",q:"Write out 5,000,000 years in standard form.",a:"5 × 10⁶"},
+{t:"15.5 Fossils",q:"What factors cause animal remains to decay very slowly?",a:"Low temperature / low oxygen / toxic gases kill bacteria"},
+{t:"15.5 Fossils",q:"Why don't we have fossils for all organisms?",a:"Some don't fossilise / haven't been found yet"},
+{t:"15.5 Fossils",q:"Which 'm' replaces the bones of animals when they fossilise?",a:"Minerals"},
+{t:"15.6 Extinction",q:"Name a non-living factor that can lead to extinction of a species.",a:"Climate change"},
+{t:"15.6 Extinction",q:"Name 2 living factors that can lead to the extinction of a species.",a:"Competition / predators / new species introduced"},
+{t:"15.6 Extinction",q:"Why are rare animals particularly at risk from extinction due to diseases?",a:"Not many animals so less chance some survive"},
+{t:"15.6 Extinction",q:"Extinction means the permanent loss of a s_______.",a:"Species"},
+{t:"15.6 Extinction",q:"If two species are closely related their skeletons would share many s_______.",a:"Similarities"},
+{t:"15.6 Extinction",q:"How do scientists know that birds are related to dinosaurs?",a:"Similar skeletons / features"},
+{t:"15.7 Mass Extinction",q:"Which catastrophic event contributed to the extinction of dinosaurs?",a:"Asteroid strike / volcanic activity"},
+{t:"15.7 Mass Extinction",q:"Which long-term change often results in mass extinctions?",a:"Climate change"},
+{t:"15.7 Mass Extinction",q:"Write out 3.5 billion years in millions of years.",a:"3,500 million years"},
+{t:"15.7 Mass Extinction",q:"Roughly how long ago did the dinosaurs go extinct?",a:"65 million years ago"},
+{t:"15.7 Mass Extinction",q:"How are mass extinctions different to a single species going extinct?",a:"Lots of species go extinct at the same time"},
+{t:"15.7 Mass Extinction",q:"Write out 3.5 billion in standard form.",a:"3.5 × 10⁹"},
+{t:"15.8 Antibiotic Resistance",q:"MRSA is r_______ to many antibiotics.",a:"Resistant"},
+{t:"15.8 Antibiotic Resistance",q:"Why is it difficult to make new antibiotics?",a:"Expensive / takes a long time"},
+{t:"15.8 Antibiotic Resistance",q:"What is it called when DNA is changed (e.g. by ionising radiation)?",a:"Mutation"},
+{t:"15.8 Antibiotic Resistance",q:"A bacterium can reproduce every 30 mins. How many bacteria would there be after 3 hours?",a:"64"},
+{t:"15.8 Antibiotic Resistance",q:"Name 2 things that patients should do when using antibiotics.",a:"Take only when needed / finish the course"},
+{t:"15.8 Antibiotic Resistance",q:"Why do farmers use antibiotics on their animals?",a:"Speed up growth"},
+{t:"15.9 Classification",q:"When classifying organisms, what is the name of the largest group?",a:"Kingdom"},
+{t:"15.9 Classification",q:"When classifying organisms, what is the name of the smallest group?",a:"Species"},
+{t:"15.9 Classification",q:"What comes next: class, order, family, _______?",a:"Genus"},
+{t:"15.9 Classification",q:"'Binomial' means using how many names for an organism?",a:"2"},
+{t:"15.9 Classification",q:"Panthera leo is the binomial name for which animal?",a:"Lion"},
+{t:"15.9 Classification",q:"Scientists changed their mind about classification when they discovered better e_______.",a:"Evidence"},
+{t:"15.10 Evolution Trees",q:"What do eukaryotic cells have that prokaryotic cells don't?",a:"A nucleus"},
+{t:"15.10 Evolution Trees",q:"If two species are on close branches of an evolutionary tree they are closely _______.",a:"Related"},
+{t:"15.10 Evolution Trees",q:"Modern classification compares the _______ of species to see if they are related.",a:"DNA / genes"},
+{t:"15.10 Evolution Trees",q:"Living things share a common a_______ in the past.",a:"Ancestor"},
+{t:"15.10 Evolution Trees",q:"Bacteria and eukaryotes are two of the three domains; what is the third?",a:"Archaea"},
+{t:"15.10 Evolution Trees",q:"Which 'g' means the complete set of genes an organism has?",a:"Genome"},
+]},
+/* ── CHAPTER 16 ── */
+{id:"ch16",num:"Ch 16",paper:2,title:"Adaptations & Competition",cards:[
+{t:"16.1 Ecosystems",q:"Which 'C' means all of the different organisms that live in an area?",a:"Community"},
+{t:"16.1 Ecosystems",q:"What are the scientific names for the living and non-living parts of an ecosystem?",a:"Biotic and abiotic"},
+{t:"16.1 Ecosystems",q:"How do some plants rely on animals?",a:"Pollination / nitrates from carnivorous plants"},
+{t:"16.1 Ecosystems",q:"Apart from food, name something else an animal could need from a plant.",a:"Nest / place to live"},
+{t:"16.1 Ecosystems",q:"In a stable community, species and environmental factors are b_______.",a:"Balanced"},
+{t:"16.1 Ecosystems",q:"Which 'I' means when organisms depend on each other to live?",a:"Interdependence"},
+{t:"16.2 Abiotic Factors",q:"Photosynthesis is affected by light i_______.",a:"Intensity"},
+{t:"16.2 Abiotic Factors",q:"Which type of molecules found in organisms are damaged by high temperatures?",a:"Enzymes / proteins"},
+{t:"16.2 Abiotic Factors",q:"Name two things, apart from water content, about soil that affect plant growth.",a:"pH and mineral content"},
+{t:"16.2 Abiotic Factors",q:"True or False — all organisms need to have oxygen present.",a:"FALSE"},
+{t:"16.2 Abiotic Factors",q:"Name one way new animals in a habitat can decrease other animal numbers.",a:"Predators / competition"},
+{t:"16.2 Abiotic Factors",q:"Which type of competition is between members of different species?",a:"Interspecific"},
+{t:"16.3 Sampling",q:"What mathematical technique can you use to make sure quadrats are placed randomly?",a:"Use random numbers / coordinates"},
+{t:"16.3 Sampling",q:"What is the area of a quadrat with sides 0.5 m long?",a:"0.25 m²"},
+{t:"16.3 Sampling",q:"What is the mean of these numbers: 8, 7, 4, 12, 9?",a:"8"},
+{t:"16.3 Sampling",q:"Which 'A' word is a measure of how many organisms there are in a particular area?",a:"Abundance"},
+{t:"16.3 Sampling",q:"Which transect line is often used when an a_______ factor changes, e.g. across a stream?",a:"Abiotic"},
+{t:"16.3 Sampling",q:"Doing repeats of quadrats allows you to identify what in your results?",a:"Anomalous results / outliers"},
+{t:"16.4 Animal Competition",q:"Apart from food, name 2 other things animals compete for.",a:"Mates and territory / space"},
+{t:"16.4 Animal Competition",q:"An animal with a (mainly) meat only diet is called what?",a:"Carnivore"},
+{t:"16.4 Animal Competition",q:"An animal with a (mainly) plant only diet is called what?",a:"Herbivore"},
+{t:"16.4 Animal Competition",q:"What do some male animals do or use when competing for mates?",a:"Use display / colours / specialised body parts"},
+{t:"16.4 Animal Competition",q:"What name is given to the characteristics of animals that help them survive?",a:"Adaptations"},
+{t:"16.4 Animal Competition",q:"How can non-predators like rabbits cause problems for other species?",a:"Eating their food"},
+{t:"16.5 Plant Competition",q:"Name two things that plants compete for.",a:"Water / light / minerals / space"},
+{t:"16.5 Plant Competition",q:"Why do some woodland plants flower early?",a:"To avoid competition"},
+{t:"16.5 Plant Competition",q:"Why do plants need to spread their seeds?",a:"So their offspring aren't competing for light etc."},
+{t:"16.5 Plant Competition",q:"Why do some plants have tendrils or suckers?",a:"To help them climb (and get more light)"},
+{t:"16.5 Plant Competition",q:"How can plants spread seeds?",a:"Wind / animals / water / explosive seed pods"},
+{t:"16.5 Plant Competition",q:"What is the job of plant roots?",a:"Absorb water / dissolved minerals / anchorage"},
+{t:"16.6 Adaptations",q:"Living things are a_______ to their environment.",a:"Adapted"},
+{t:"16.6 Adaptations",q:"How are a herbivore's teeth adapted to their diet?",a:"Flat for chewing"},
+{t:"16.6 Adaptations",q:"Why do cacti have long, spread out roots?",a:"Need to absorb any available water"},
+{t:"16.6 Adaptations",q:"What name is given to organisms living in an extreme environment?",a:"Extremophile"},
+{t:"16.6 Adaptations",q:"Why can't most organisms live at low or high temperatures?",a:"Enzymes work slowly / denatured"},
+{t:"16.6 Adaptations",q:"Why can't most organisms live at an extreme pH?",a:"Enzymes denature"},
+{t:"16.7 Animal Adaptations",q:"Why are most mammals living in cold environments so large?",a:"Small surface area to volume ratio — reduces heat loss"},
+{t:"16.7 Animal Adaptations",q:"Many mammals living in cold places have a layer of b_______ under their skin.",a:"Blubber"},
+{t:"16.7 Animal Adaptations",q:"Why would a predator need camouflage?",a:"So prey can't see it"},
+{t:"16.7 Animal Adaptations",q:"Name two ways a camel is adapted to low water conditions.",a:"Can drink a lot / little sweating / stores fat in humps / takes water from food"},
+{t:"16.7 Animal Adaptations",q:"Name a behavioural adaptation of an animal in hot weather.",a:"Stay in shade / burrow underground"},
+{t:"16.7 Animal Adaptations",q:"Adaptations of animals can be structural, behavioural or f_______.",a:"Functional"},
+{t:"16.8 Plant Adaptations",q:"What type of tissue in plants transports water up the stem?",a:"Xylem"},
+{t:"16.8 Plant Adaptations",q:"What are the small openings on the underneath of a leaf called?",a:"Stomata"},
+{t:"16.8 Plant Adaptations",q:"Water leaves a leaf by e_______.",a:"Evaporation"},
+{t:"16.8 Plant Adaptations",q:"Adaptations of plants can be s_______, behavioural or functional.",a:"Structural"},
+{t:"16.8 Plant Adaptations",q:"What 'C' is the name for the waxy, waterproof layer on top of a leaf?",a:"Cuticle"},
+{t:"16.8 Plant Adaptations",q:"How do some desert plants deter herbivores from eating them?",a:"Spines"},
+]},
+/* ── CHAPTER 17 ── */
+{id:"ch17",num:"Ch 17",paper:2,title:"Organising an Ecosystem",cards:[
+{t:"17.1 Food Chains",q:"The first animal in a food chain is a _______.",a:"Consumer"},
+{t:"17.1 Food Chains",q:"Secondary consumers can be carnivores or _______.",a:"Omnivores"},
+{t:"17.1 Food Chains",q:"Why don't herbivores waste as much energy as carnivores?",a:"Less moving around after their food source"},
+{t:"17.1 Food Chains",q:"If predators in a habitat increase, what happens to the number of prey?",a:"Decrease"},
+{t:"17.1 Food Chains",q:"Fluctuations in predator-prey numbers are known as a c_______.",a:"Cycle"},
+{t:"17.1 Food Chains",q:"In a s_______ community numbers of predators and prey rise and fall.",a:"Stable"},
+{t:"17.2 Decomposers",q:"Which group of organisms break down waste, dead animals and plants?",a:"Decomposers"},
+{t:"17.2 Decomposers",q:"What is the name of animals that feed on detritus?",a:"Detritivores"},
+{t:"17.2 Decomposers",q:"Name a mineral returned to the soil by decomposers.",a:"Nitrates"},
+{t:"17.2 Decomposers",q:"Which gas do plants absorb from the atmosphere for photosynthesis?",a:"Carbon dioxide"},
+{t:"17.2 Decomposers",q:"Which term describes the loss of water vapour from leaves?",a:"Transpiration"},
+{t:"17.2 Decomposers",q:"What is rain, sleet or snow usually known as?",a:"Precipitation"},
+{t:"17.3 Carbon Cycle",q:"What two substances are produced in photosynthesis?",a:"Glucose and oxygen"},
+{t:"17.3 Carbon Cycle",q:"What two substances are produced in aerobic respiration?",a:"Carbon dioxide and water"},
+{t:"17.3 Carbon Cycle",q:"What two substances are produced in combustion?",a:"Carbon dioxide and water"},
+{t:"17.3 Carbon Cycle",q:"Why is more CO₂ being released now than in the past?",a:"More fossil fuels being burnt"},
+{t:"17.3 Carbon Cycle",q:"What comes after a primary and secondary consumer?",a:"Tertiary consumer"},
+{t:"17.3 Carbon Cycle",q:"How do organic materials get from plants into animals?",a:"Feeding / being eaten"},
+{t:"17.4 Decay",q:"Why are low temperatures bad for decay?",a:"Too cold for enzymes to work efficiently"},
+{t:"17.4 Decay",q:"Which two types of microorganism are particularly involved with decay?",a:"Fungi and bacteria"},
+{t:"17.4 Decay",q:"Most decomposers require what for respiration?",a:"Oxygen"},
+{t:"17.4 Decay",q:"Biogas is mainly made up of which combustible gas?",a:"Methane"},
+{t:"17.4 Decay",q:"What is compost used for?",a:"Fertiliser"},
+{t:"17.4 Decay",q:"Name a source of manure.",a:"Cows / horses / pigs / chickens"},
+]},
+/* ── CHAPTER 18 ── */
+{id:"ch18",num:"Ch 18",paper:2,title:"Biodiversity & Ecosystems",cards:[
+{t:"18.1 Biodiversity",q:"Biodiversity is the v_______ of all the different species of organisms.",a:"Variety"},
+{t:"18.1 Biodiversity",q:"Organisms are d_______ on each other to survive.",a:"Dependent"},
+{t:"18.1 Biodiversity",q:"Name two human activities that reduce land available for other species.",a:"Farming / building / quarrying / waste"},
+{t:"18.1 Biodiversity",q:"What 'R' (e.g. energy, fuel, food) do humans need to survive?",a:"Resources"},
+{t:"18.1 Biodiversity",q:"True or false — the world population is almost 8 million people.",a:"FALSE (it is over 8 billion)"},
+{t:"18.1 Biodiversity",q:"Why is there an increased demand for expensive metals?",a:"Increased standard of living / demand for electronics"},
+{t:"18.2 Pollution",q:"Human waste is known as s_______.",a:"Sewage"},
+{t:"18.2 Pollution",q:"Why is nuclear waste such a problem?",a:"Can spread long distances / persists for a long time"},
+{t:"18.2 Pollution",q:"Which mineral is particularly common in fertilisers?",a:"Nitrate"},
+{t:"18.2 Pollution",q:"What does 'ppm' stand for?",a:"Parts per million"},
+{t:"18.2 Pollution",q:"Pollution can kill plants and animals resulting in lower b_______.",a:"Biodiversity"},
+{t:"18.2 Pollution",q:"Bioindicators are species used to indicate p_______ in water.",a:"Pollution"},
+{t:"18.3 Acid Rain",q:"Which two gases contribute in particular to acid rain?",a:"Sulfur dioxide and nitrogen oxides"},
+{t:"18.3 Acid Rain",q:"Name three parts of plants that can be harmed by acid rain.",a:"Roots, leaves, buds, flowers, fruit"},
+{t:"18.3 Acid Rain",q:"How can acid rain be spread from its original source?",a:"The wind"},
+{t:"18.3 Acid Rain",q:"The tiny, solid particles that make up smoke are known as p_______.",a:"Particulates"},
+{t:"18.3 Acid Rain",q:"Does acid rain have a low or a high pH?",a:"Low pH"},
+{t:"18.3 Acid Rain",q:"Which organ of the body is particularly affected by sulfur dioxide?",a:"Lungs / airways"},
+{t:"18.4 Deforestation",q:"Which areas of the Earth are particularly vulnerable to deforestation?",a:"Tropical areas"},
+{t:"18.4 Deforestation",q:"Which 'B' is reduced when forests are removed?",a:"Biodiversity"},
+{t:"18.4 Deforestation",q:"How many species of crop make up a monoculture?",a:"One"},
+{t:"18.4 Deforestation",q:"Plant remains in peat bogs decay very slowly due to low o_______ and pH.",a:"Oxygen"},
+{t:"18.4 Deforestation",q:"Suggest a reason why deforestation is common.",a:"Cleared for land / farming"},
+{t:"18.4 Deforestation",q:"Peat can be used by gardeners or burnt for f_______.",a:"Fuel"},
+{t:"18.5 Climate Change",q:"Plants and water act as carbon dioxide s_______.",a:"Sinks"},
+{t:"18.5 Climate Change",q:"Apart from CO₂, which other gas is associated with the greenhouse effect?",a:"Methane"},
+{t:"18.5 Climate Change",q:"Why have atmospheric levels of CO₂ increased so much in the last 100 years?",a:"More fossil fuels burned / more cars"},
+{t:"18.5 Climate Change",q:"Name two ways birds may be affected by climate change.",a:"Loss of food / change in migration patterns"},
+{t:"18.5 Climate Change",q:"Can warm water hold more or less dissolved carbon dioxide?",a:"Less"},
+{t:"18.5 Climate Change",q:"Loss of habitat due to flooding will reduce b_______.",a:"Biodiversity"},
+{t:"18.6 Ecosystems & Change",q:"Annual s_______ changes in an ecosystem change the distribution of organisms.",a:"Seasonal"},
+{t:"18.6 Ecosystems & Change",q:"Salinity describes the concentration of what dissolved in water?",a:"Salt"},
+{t:"18.6 Ecosystems & Change",q:"How can human activity disturb an ecosystem?",a:"Climate change / acid rain / direct destruction"},
+{t:"18.6 Ecosystems & Change",q:"Why is atmospheric CO₂ level rising so quickly?",a:"Combustion / burning fossil fuels"},
+{t:"18.6 Ecosystems & Change",q:"Scientists use computers to p_______ future changes to ecosystems.",a:"Predict"},
+{t:"18.6 Ecosystems & Change",q:"Why are some species of birds migrating further north?",a:"Increased temperatures due to climate change"},
+{t:"18.7 Conservation",q:"Suggest an animal helped by a breeding programme.",a:"Panda / rhino / other endangered species"},
+{t:"18.7 Conservation",q:"Suggest a rare ecosystem that benefits from protection.",a:"Coral reefs / mangrove / heathlands"},
+{t:"18.7 Conservation",q:"How can farmers help maintain biodiversity?",a:"Replant hedgerows"},
+{t:"18.7 Conservation",q:"How did Costa Rica preserve its rainforests?",a:"Stopped deforestation / encouraged tourism"},
+{t:"18.7 Conservation",q:"Suggest three items that are commonly recycled.",a:"Paper, plastics, metals, glass, wood, clothing"},
+{t:"18.7 Conservation",q:"What has happened to UK CO₂ emissions in the last 30 years?",a:"Decreased"},
+{t:"18.8 Trophic Levels",q:"Which organisms are found in trophic level 1?",a:"Producers / plants / algae / phytoplankton"},
+{t:"18.8 Trophic Levels",q:"Which type of organisms are found in trophic level 2?",a:"Herbivores / primary consumers"},
+{t:"18.8 Trophic Levels",q:"Biomass is the d_______ mass of biological material in an organism.",a:"Dry"},
+{t:"18.8 Trophic Levels",q:"Which trophic level always has the highest biomass?",a:"1 (trophic level 1 — producers)"},
+{t:"18.8 Trophic Levels",q:"Decomposers break down dead material by secreting e_______.",a:"Enzymes"},
+{t:"18.8 Trophic Levels",q:"P_______ of numbers or biomass can be used to describe communities.",a:"Pyramids"},
+{t:"18.9 Energy Transfer",q:"How much incident energy from the sun's light is transferred to biomass?",a:"1%"},
+{t:"18.9 Energy Transfer",q:"Which part of plants do herbivores struggle to digest?",a:"Cellulose / cell walls"},
+{t:"18.9 Energy Transfer",q:"How do animals excrete excess amino acids / proteins?",a:"In urine / as urea"},
+{t:"18.9 Energy Transfer",q:"Why do consumers transfer more heat to their surroundings than producers?",a:"Animals move — plants don't"},
+{t:"18.9 Energy Transfer",q:"Mammals and birds need to consume a lot of food so they can maintain a c_______ body temperature.",a:"Constant"},
+{t:"18.9 Energy Transfer",q:"Which 'f' means undigested food that the organism releases?",a:"Faeces"},
+{t:"18.9 Energy Transfer",q:"Which group of organisms in an ecosystem probably has the highest biomass?",a:"Decomposers"},
+{t:"18.10 Food Security",q:"Food security means having enough food to feed a p_______.",a:"Population"},
+{t:"18.10 Food Security",q:"Why is the world's population increasing?",a:"More births / increasing birth rate"},
+{t:"18.10 Food Security",q:"Why are people's diets changing from traditional foods in some countries?",a:"Access to new foods"},
+{t:"18.10 Food Security",q:"Which 'd' describes an extreme lack of rainfall?",a:"Drought"},
+{t:"18.10 Food Security",q:"Why don't all farmers make use of improved fertilisers and pesticides?",a:"Cost / too expensive"},
+{t:"18.10 Food Security",q:"S_______ means producing food so it will be available for many years to come.",a:"Sustainable"},
+{t:"18.11 Farming",q:"Much of the food in developed countries comes from a_______ farming.",a:"Animals"},
+{t:"18.11 Farming",q:"Reducing the number of stages in our food chain would make it more e_______.",a:"Efficient"},
+{t:"18.11 Farming",q:"Why does keeping animals in small spaces increase their growth?",a:"Less movement / transfer less heat energy"},
+{t:"18.11 Farming",q:"Why have intensive farming methods been popular with some people?",a:"Cheaper food"},
+{t:"18.11 Farming",q:"Why have intensive farming methods not been popular with some people?",a:"Animal welfare / ethical concerns"},
+{t:"18.11 Farming",q:"F_______ farms are an increasingly popular source of protein.",a:"Fish"},
+{t:"18.12 Sustainability",q:"Some popular species of fish are almost e_______ due to overfishing.",a:"Extinct"},
+{t:"18.12 Sustainability",q:"How do governments try to control fish stocks?",a:"Quotas and control of the size of nets"},
+{t:"18.12 Sustainability",q:"What does the GM in GM foods stand for?",a:"Genetically Modified"},
+{t:"18.12 Sustainability",q:"Mycoprotein is made from which microorganism?",a:"Fungi"},
+{t:"18.12 Sustainability",q:"What is the name of the containers used to make mycoprotein?",a:"Fermenters"},
+{t:"18.12 Sustainability",q:"GM bacteria can also be used to make which medicine?",a:"Insulin"},
+]},
+];
+
+/* ═══════════════════════════ APP LOGIC ═══════════════════════════ */
+const p1ids=CHAPTERS.filter(c=>c.paper===1).map(c=>c.id);
+const p2ids=CHAPTERS.filter(c=>c.paper===2).map(c=>c.id);
+let sel=new Set();
+let orders={};
+let learned=new Set();
+let dark=true;
+
+function ck(chId,idx){return chId+'_'+idx;}
+function saveL(){try{localStorage.setItem('bio_full_learned',JSON.stringify([...learned]));}catch(e){}}
+function loadL(){try{const d=localStorage.getItem('bio_full_learned');if(d)learned=new Set(JSON.parse(d));}catch(e){}}
+function saveTh(){try{localStorage.setItem('bio_full_theme',dark?'dark':'light');}catch(e){}}
+function loadTh(){try{const t=localStorage.getItem('bio_full_theme');if(t){dark=t==='dark';apply();}}catch(e){}}
+function apply(){
+  document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+  document.getElementById('theme-btn').textContent=dark?'☀️':'🌙';
+}
+
+function getOrder(chId){
+  if(!orders[chId]){const ch=CHAPTERS.find(c=>c.id===chId);orders[chId]=[...Array(ch.cards.length).keys()];}
+  return orders[chId];
+}
+function shuffleAll(){
+  CHAPTERS.filter(c=>sel.has(c.id)).forEach(ch=>{
+    const a=getOrder(ch.id);for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  });
+  renderAll();
+}
+
+function setSel(ids){
+  sel=new Set(ids);
+  document.querySelectorAll('.sel-btn[data-chid]').forEach(b=>{b.classList.toggle('active',sel.has(b.dataset.chid));});
+  renderAll();
+}
+function toggleCh(id){
+  sel.has(id)?sel.delete(id):sel.add(id);
+  const b=document.querySelector(`.sel-btn[data-chid="${id}"]`);
+  if(b)b.classList.toggle('active',sel.has(id));
+  renderAll();
+}
+
+function renderAll(){
+  const con=document.getElementById('ch-container');
+  const empty=document.getElementById('empty-msg');
+  con.innerHTML='';
+  if(sel.size===0){empty.style.display='block';updateSummary();return;}
+  empty.style.display='none';
+  CHAPTERS.filter(c=>sel.has(c.id)).forEach(ch=>{con.appendChild(buildSection(ch));});
+  updateSummary();updateGP();
+}
+
+function buildSection(ch){
+  const ord=getOrder(ch.id);
+  const tot=ch.cards.length;
+  const lrn=ord.filter(i=>learned.has(ck(ch.id,i))).length;
+  const pct=tot?Math.round(lrn/tot*100):0;
+  const sec=document.createElement('div');
+  sec.className='ch-section';
+  const ptag=ch.paper===1?'p1':'p2';
+  sec.innerHTML=`
+    <div class="ch-header">
+      <span class="ch-num-tag">${ch.num}</span>
+      <span class="paper-tag ${ptag}">Paper ${ch.paper}</span>
+      <div class="ch-title">${ch.title}</div>
+      <div class="ch-stats">
+        <span id="cst_${ch.id}">${lrn}/${tot} learned</span>
+        <div class="ch-prog"><div class="ch-prog-fill" id="cpf_${ch.id}" style="width:${pct}%"></div></div>
+      </div>
+    </div>
+    <div class="cards-grid" id="grid_${ch.id}"></div>`;
+  const grid=sec.querySelector('#grid_'+ch.id);
+  ord.forEach(idx=>grid.appendChild(buildCard(ch,idx)));
+  return sec;
+}
+
+function buildCard(ch,idx){
+  const c=ch.cards[idx];
+  const key=ck(ch.id,idx);
+  const isL=learned.has(key);
+  const long=(c.q.length+c.a.length)>150;
+  const wrap=document.createElement('div');
+  wrap.className='card-wrap'+(long?' tall':'')+(isL?' is-learned':'');
+  wrap.id='cw_'+ch.id+'_'+idx;
+  wrap.innerHTML=`
+    <div class="card-inner" id="ci_${ch.id}_${idx}">
+      <div class="card-face cf-front">
+        <div class="card-topic-tag">${c.t}</div>
+        <div class="card-q-text">${c.q}</div>
+        <div class="card-footer">
+          <span class="card-hint">tap to reveal →</span>
+          <button class="learned-btn${isL?' is-learned':''}" id="lb_${ch.id}_${idx}" onclick="event.stopPropagation();tL('${ch.id}',${idx})" title="${isL?'Unmark':'Mark as learned'}">${isL?'✓':'○'}</button>
+        </div>
+      </div>
+      <div class="card-face cf-back">
+        <div class="card-back-label">answer</div>
+        <div class="card-a-text">${c.a}</div>
+        <div class="card-footer">
+          <span class="card-hint">← tap to flip back</span>
+          <button class="learned-btn${isL?' is-learned':''}" onclick="event.stopPropagation();tL('${ch.id}',${idx})" title="${isL?'Unmark':'Mark as learned'}">${isL?'✓':'○'}</button>
+        </div>
+      </div>
+    </div>`;
+  wrap.addEventListener('click',()=>{document.getElementById('ci_'+ch.id+'_'+idx).classList.toggle('flipped');});
+  return wrap;
+}
+
+function tL(chId,idx){
+  const key=ck(chId,idx);
+  learned.has(key)?learned.delete(key):learned.add(key);
+  saveL();
+  const isL=learned.has(key);
+  const wrap=document.getElementById('cw_'+chId+'_'+idx);
+  if(wrap){
+    wrap.classList.toggle('is-learned',isL);
+    wrap.querySelectorAll('.learned-btn').forEach(b=>{b.classList.toggle('is-learned',isL);b.textContent=isL?'✓':'○';});
+  }
+  updateChProg(chId);updateSummary();updateGP();
+}
+
+function updateChProg(chId){
+  const ch=CHAPTERS.find(c=>c.id===chId);if(!ch)return;
+  const ord=getOrder(chId);
+  const tot=ch.cards.length;
+  const lrn=ord.filter(i=>learned.has(ck(chId,i))).length;
+  const pf=document.getElementById('cpf_'+chId);if(pf)pf.style.width=(tot?lrn/tot*100:0)+'%';
+  const st=document.getElementById('cst_'+chId);if(st)st.textContent=lrn+'/'+tot+' learned';
+}
+
+function updateSummary(){
+  let ts=0,tl=0;
+  CHAPTERS.filter(c=>sel.has(c.id)).forEach(ch=>{
+    const o=getOrder(ch.id);ts+=o.length;tl+=o.filter(i=>learned.has(ck(ch.id,i))).length;
+  });
+  document.getElementById('sum-shown').textContent=ts+' cards shown';
+  document.getElementById('sum-learned').textContent=tl+' learned';
+}
+
+function updateGP(){
+  let tot=0,lrn=0;
+  CHAPTERS.forEach(ch=>{ch.cards.forEach((_,i)=>{tot++;if(learned.has(ck(ch.id,i)))lrn++;});});
+  document.getElementById('gp-bar').style.width=(tot?lrn/tot*100:0)+'%';
+  document.getElementById('gp-text').textContent=lrn+' of '+tot+' learned (all chapters)';
+}
+
+function resetVisible(){
+  CHAPTERS.filter(c=>sel.has(c.id)).forEach(ch=>ch.cards.forEach((_,i)=>learned.delete(ck(ch.id,i))));
+  saveL();renderAll();
+}
+
+function buildToggles(){
+  const w=document.getElementById('ch-toggles');
+  CHAPTERS.forEach(ch=>{
+    const b=document.createElement('button');
+    b.className='sel-btn';b.dataset.chid=ch.id;
+    b.textContent=ch.num;b.title=ch.title;
+    b.onclick=()=>toggleCh(ch.id);
+    w.appendChild(b);
+  });
+}
+
+document.querySelector('[data-action="paper1"]').onclick=()=>setSel(p1ids);
+document.querySelector('[data-action="paper2"]').onclick=()=>setSel(p2ids);
+document.querySelector('[data-action="all"]').onclick=()=>setSel(CHAPTERS.map(c=>c.id));
+document.getElementById('shuffle-btn').onclick=shuffleAll;
+document.getElementById('theme-btn').onclick=()=>{dark=!dark;apply();saveTh();};
+document.getElementById('reset-btn').onclick=resetVisible;
+
+loadL();loadTh();buildToggles();updateGP();
+document.getElementById('empty-msg').style.display='block';
+</script>
+</body>
+</html>
